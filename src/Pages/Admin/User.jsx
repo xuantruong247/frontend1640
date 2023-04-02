@@ -4,7 +4,7 @@ import "../LoginPage/style.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const RegisterPage = () => {
+const User = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
@@ -163,4 +163,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default User;

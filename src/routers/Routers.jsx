@@ -13,9 +13,19 @@ import AddSubQA from "../Pages/SubmissionPage/QA/AddSubQA";
 import { useAuth } from "../context/auth";
 import HomePage from "../Pages/HomePage/HomePage";
 import Per from "../components/Error/Per";
-import RegisterPage from "../Pages/Register/RegisterPage";
-import Dashboard from "../Pages/Dashboard/Dashboard";
-import Category from "../Pages/Category/Category";
+import ManageCategory from "../Pages/Admin/Category/ManageCategory";
+import ManageAdmin from "../Pages/Admin/ManageAdmin";
+import ManageQA from "../Pages/QA/ManageQA";
+import ManageIdea from "../Pages/QA/ManageIdea";
+import ManageSub from "../Pages/QA/ManageSub";
+import CreateCategory from "../Pages/Admin/Category/CreateCategory";
+import UpdateCategory from "../Pages/Admin/Category/UpdateCategory";
+import ManageRole from "../Pages/Admin/Role/ManageRole";
+import CreateRole from "../Pages/Admin/Role/CreateRole";
+import UpdateRole from "../Pages/Admin/Role/UpdateRole";
+import ManageUser from "../Pages/Admin/User/ManageUser";
+import CreateUser from "../Pages/Admin/User/CreateUser";
+import UpdateUser from "../Pages/Admin/User/UpdateUser";
 
 const Routers = () => {
   const [auth] = useAuth();
@@ -49,6 +59,7 @@ const Routers = () => {
         path="submissionQA"
         element={checkQa ? <SubmissionQA /> : <Per />}
       />
+      <Route path="manageQA" element={<ManageQA />} />
 
       {/* Admin */}
       <Route
@@ -59,10 +70,18 @@ const Routers = () => {
         path="addSubQA"
         element={checkAdmin || checkQa ? <AddSubQA /> : <Per />}
       />
-      <Route path="register" element={<RegisterPage />} />
-      <Route path="dashboard" element={checkAdmin ? <Dashboard /> : <Per />} />
-
-      <Route path="category" element={checkAdmin ? <Category /> : <Per />} />
+      <Route path="manage-user" element={<ManageUser />} />
+      <Route path="create-user" element={<CreateUser />} />
+      <Route path="update-user/:id" element={<UpdateUser />} />
+      <Route path="manage-category" element={<ManageCategory />} />
+      <Route path="create-category" element={<CreateCategory />} />
+      <Route path="update-category/:id" element={<UpdateCategory />} />
+      <Route path="manageAdmin" element={<ManageAdmin />} />
+      <Route path="manage-idea" element={<ManageIdea />} />
+      <Route path="manage-sub" element={<ManageSub />} />
+      <Route path="manage-role" element={<ManageRole />} />
+      <Route path="create-role" element={<CreateRole />} />
+      <Route path="update-role/:id" element={<UpdateRole />} />
     </Routes>
   );
 };

@@ -16,7 +16,6 @@ const HeaderAdmin = () => {
       token: "",
     });
     localStorage.removeItem("auth");
-    
   };
   const navLinkStyles = ({ isActive }) => {
     return {
@@ -104,14 +103,8 @@ const HeaderAdmin = () => {
                   className="dropdown-menu"
                   aria-labelledby="dropdownMenuButton"
                 >
-                  <NavLink className="pl-1  dropdown-item" to="/register">
-                    Create User
-                  </NavLink>
-                  <NavLink className="pl-1  dropdown-item" to="/category">
-                    Create Category
-                  </NavLink>
-                  <NavLink className="pl-1  dropdown-item" to="/dashboard">
-                    Dashboard
+                  <NavLink className="pl-1  dropdown-item" to="/manageAdmin">
+                    Managements
                   </NavLink>
                   <NavLink
                     className="pl-1  dropdown-item"

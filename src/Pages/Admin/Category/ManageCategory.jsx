@@ -1,0 +1,90 @@
+import React, { useEffect, useState } from "react";
+import AdminMenu from "../../../components/AdminComponents/AdminMenu";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { NavLink, useParams } from "react-router-dom";
+
+const ManageCategory = () => {
+  const [categories, setCategories] = useState([]);
+  const getAllCategory = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/admin/category");
+      toast.success("Get Database Successfully");
+      setCategories(res.data);
+      console.log(res.data);
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
+  };
+
+  const deleteCategory = async (id) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:8080/admin/category/${id}`
+      );
+      console.log(res.data);
+      toast.success("Delete Category successfully");
+      getAllCategory();
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllCategory();
+  }, []);
+
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-3">
+          <AdminMenu />
+        </div>
+        <div className="col-md-3">
+          <h5>Manage Category</h5>
+          <NavLink to="/create-category">
+            <button className="btn btn-success m-2">New Category</button>
+          </NavLink>
+          <div className="w-75">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {categories?.map((item, index) => (
+                  <>
+                    <tr key={index}>
+                      <td>{item.name}</td>
+                      <td>
+                        <NavLink to={`/update-category/${item._id}`}>
+                          <button className="btn btn-primary">Edit</button>
+                        </NavLink>
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            deleteCategory(item._id);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  </>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ManageCategory;

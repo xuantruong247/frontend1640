@@ -106,6 +106,13 @@ const HeaderQA = () => {
                   <NavLink
                     className="pl-1  dropdown-item"
                     onClick={handleLogout}
+                    to="/manageQA"
+                  >
+                  Managements
+                  </NavLink>
+                  <NavLink
+                    className="pl-1  dropdown-item"
+                    onClick={handleLogout}
                     to="/"
                   >
                     logout

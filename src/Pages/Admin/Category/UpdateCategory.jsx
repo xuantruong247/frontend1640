@@ -1,22 +1,23 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const Category = () => {
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
+const UpdateCategory = () => {
+  const [updateName, setUpdateName] = useState("");
+  const [updateDesc, setUpdateDesc] = useState("");
+  const {id} = useParams()
   const navigate = useNavigate();
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/admin/category", {
-        name,
-        desc,
+      const res = await axios.patch(`http://localhost:8080/admin/category/${id}`, {
+        name:updateName,
+        description:updateDesc,
       });
       console.log(res.data);
       toast.success("Register Successfully");
-      navigate("/");
+      navigate("/manage-category");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -40,7 +41,7 @@ const Category = () => {
       <div className="login-title">
         <div className="my-[20px] flex items-center justify-center">
           <div className="w-full  max-w-md p-8 space-y-3 rounded-xl dark:bg-gray-900 dark:text-gray-100">
-            <h1 className="text-2xl font-bold text-center">Create Category</h1>
+            <h1 className="text-2xl font-bold text-center">Update Category</h1>
             <form
               onSubmit={handleCreate}
               novalidate=""
@@ -56,9 +57,9 @@ const Category = () => {
                   name="Name"
                   id="Name"
                   placeholder="Name"
-                  value={name}
+                  value={updateName}
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setUpdateName(e.target.value);
                   }}
                   className="w-full px-4 py-3 rounded-md border-gray-700 bg-white text-black"
                 />
@@ -71,9 +72,9 @@ const Category = () => {
                   type="text"
                   name="Description"
                   id="desc"
-                  value={desc}
+                  value={updateDesc}
                   onChange={(e) => {
-                    setDesc(e.target.value);
+                    setUpdateDesc(e.target.value);
                   }}
                   placeholder="Description"
                   className="w-full px-4 py-3 rounded-md dark:border-gray-700 bg-white text-black"
@@ -83,7 +84,7 @@ const Category = () => {
                 type="submit"
                 className="block w-full p-3 font-medium text-center rounded-sm text-gray-900 bg-blue-500"
               >
-                Create Category
+                Update Category
               </button>
             </form>
           </div>
@@ -93,4 +94,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default UpdateCategory;

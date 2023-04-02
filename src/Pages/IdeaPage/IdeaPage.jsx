@@ -12,6 +12,9 @@ import "../../App.css";
 
 function IdeaPage() {
   const [idea, setIdea] = useState([]);
+  const [likeCount, setLikeCount] = useState(0);
+  const [dislikeCount, setDislikeCount] = useState(0);
+  const [activeBtn, setActiveBtn] = useState("none");
 
   const getAllidea = async () => {
     try {
@@ -24,45 +27,82 @@ function IdeaPage() {
       toast.error("err");
     }
   };
+  const handleLikeClick = () => {
+    if (activeBtn === "none") {
+      setLikeCount(likeCount + 1);
+      setActiveBtn("like");
+      return;
+    }
   
-   function LikeButton() {
-    const [likes, setlikes] = useState(0);
-    const [liked, setliked] = useState(false);
-    return (
-      <div className="like-button-container">
-         <button
-            className={`like-button ${liked ? 'liked' : ''}` }
-            onClick={() => {
-                setlikes = (likes + 1),
-                setliked = (true)
+    if (activeBtn === 'like'){
+      setLikeCount(likeCount - 1);
+      setActiveBtn("none");
+      return;
+    }
+  
+    if (activeBtn === "dislike") {
+      setLikeCount(likeCount + 1);
+      setDislikeCount(dislikeCount - 1);
+      setActiveBtn("like");
+    }
+  };
+  const handleDisikeClick = () => {
+    if (activeBtn === "none") {
+      setDislikeCount(dislikeCount + 1);
+      setActiveBtn("dislike");
+      return;
+    }
+   
+    if (activeBtn === 'dislike'){
+      setDislikeCount(dislikeCount - 1);
+      setActiveBtn("none");
+      return;
+    }
+  
+    if (activeBtn === "like") {
+      setDislikeCount(dislikeCount + 1);
+      setLikeCount(likeCount - 1);
+      setActiveBtn("dislike");
+    }
+  };
+//    function LikeButton() {
+//     const [likes, setlikes] = useState(0);
+//     const [liked, setliked] = useState(false);
+//     return (
+//       <div className="like-button-container">
+//          <button
+//             className={`like-button ${liked ? 'liked' : ''}` }
+//             onClick={() => {
+//                 setlikes = (likes + 1),
+//                 setliked = (true)
                 
-              }}>
-             <AiFillLike style={{ fontSize: "20px" }} /> 
-            {likes}
-         </button>
-      </div>
-   );
- }
+//               }}>
+//              <AiFillLike style={{ fontSize: "20px" }} /> 
+//             {likes}
+//          </button>
+//       </div>
+//    );
+//  }
 
- function DisLikeButton() {
-  const [Dislikes, setDislikes] = useState(0);
-  const [Disliked, setDisliked] = useState(false);
-  return (
-    <div className="like-button-container">
-       <button
-          className={`like-button ${Disliked ? 'liked' : ''}`}
-          onClick={() => {
+//  function DisLikeButton() {
+//   const [Dislikes, setDislikes] = useState(0);
+//   const [Disliked, setDisliked] = useState(false);
+//   return (
+//     <div className="like-button-container">
+//        <button
+//           className={`like-button ${Disliked ? 'liked' : ''}`}
+//           onClick={() => {
             
-             setDislikes = (Dislikes + 1),
-             setDisliked = (true)}
-          }
-       >
-        <AiFillDislike style={{ fontSize: "20px" }} />
-          {Dislikes}
-       </button>
-    </div>
- );
-}
+//              setDislikes = (Dislikes + 1),
+//              setDisliked = (true)}
+//           }
+//        >
+//         <AiFillDislike style={{ fontSize: "20px" }} />
+//           {Dislikes}
+//        </button>
+//     </div>
+//  );
+// }
 
   useEffect(() => {
     getAllidea();
@@ -82,11 +122,12 @@ function IdeaPage() {
         </div>
       </div> */}
       <div className="col-span-12 md:col-span-9">
+      {idea?.map((item, index) => (
+
         <div className="relative w-full h-[140px] md:rounded-xl border-solid border-[1px] px-[8px] py-[8px] my-[20px]">
           <div className="absolute right-[20px] top-[-14px] font-bold text-lg bg-white leading-[16px] px-[6px] py-[4px] rounded-lg border-solid border">
             Category
           </div>
-          {idea?.map((item, index) => (
             <div key={index} className="grid grid-cols-12 grid-row-2 h-full">
               <button className="col-span-2 m-auto row-end-2 lg:col-span-1">
                 <motion.img
@@ -143,20 +184,32 @@ function IdeaPage() {
                 </>
               ) : null}
               <div className="col-span-12 flex items-center justify-around lg:col-span-3">
-               <LikeButton id = "Like_button" className="LikeButton">
-                 
+                <button
+                  className={`btn ${activeBtn === "like" ? "like-active" : ""}`}
+                  onClick={handleLikeClick}
+                >
+                  <span className="material-symbols-rounded LikeButton "><AiFillLike/></span>
+                  Like {likeCount}
+                </button>
+            
+                <button
+                  className={`btn ${activeBtn === "dislike" ? "dislike-active" : ""}`}
+                  onClick={handleDisikeClick}
+                >
+                  <span className="material-symbols-rounded"><AiFillDislike/></span>
+                  Dislike {dislikeCount}
+                </button>
+                {/* <LikeButton id = "Like_button" className="LikeButton">
                 </LikeButton>
                 <DisLikeButton id = "Dislike_button" className="DislikeButton">
-                 
-                </DisLikeButton>
+                </DisLikeButton> */}
                 <button>
                   <FaCommentDots style={{ fontSize: "20px" }} />
                 </button>
               </div>
             </div>
-          ))}
         </div>
-
+          ))}
         <div className="col-span-7 flex justify-center">
           <Pagination />
         </div>

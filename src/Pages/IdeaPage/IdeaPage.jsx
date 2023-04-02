@@ -26,21 +26,16 @@ function IdeaPage() {
   };
   
    function LikeButton() {
-    const [likes, setLikes] = useState(0);
-    const [liked, setLiked] = useState(false);
+    const [likes, setlikes] = useState(0);
+    const [liked, setliked] = useState(false);
     return (
       <div className="like-button-container">
          <button
             className={`like-button ${liked ? 'liked' : ''}` }
             onClick={() => {
-              if ( likes == 0) try {
-                setLikes = (likes + 1),
-                setLiked = (true),
-                setDisLikes = (0),
-                setDisLiked = (false)
-              }
-      catch (err) {setLikes = 0
-      setLiked = (false)}
+                setlikes = (likes + 1),
+                setliked = (true)
+                
               }}>
              <AiFillLike style={{ fontSize: "20px" }} /> 
             {likes}
@@ -50,25 +45,17 @@ function IdeaPage() {
  }
 
  function DisLikeButton() {
-  const [Dislikes, setDisLikes] = useState(0);
-  const [Disliked, setDisLiked] = useState(false);
+  const [Dislikes, setDislikes] = useState(0);
+  const [Disliked, setDisliked] = useState(false);
   return (
-    <div className="Dislike-button-container">
+    <div className="like-button-container">
        <button
-          className={`Dislike-button ${Disliked ? 'Disliked' : ''}`}
+          className={`like-button ${Disliked ? 'liked' : ''}`}
           onClick={() => {
-            if (Dislikes  == 0 ) 
-     try {
-             setDisLikes = (Dislikes + 1),
-             setDisLiked = (true),
-             setLiked = (false),
-             setLikes = (0) 
-            }
-            catch (err) { setDisLikes = 0
-              setDisLiked = (false)
-
-            }
-          }}
+            
+             setDislikes = (Dislikes + 1),
+             setDisliked = (true)}
+          }
        >
         <AiFillDislike style={{ fontSize: "20px" }} />
           {Dislikes}
@@ -157,10 +144,10 @@ function IdeaPage() {
               ) : null}
               <div className="col-span-12 flex items-center justify-around lg:col-span-3">
                <LikeButton id = "Like_button" className="LikeButton">
-                  <AiFillLike style={{ fontSize: "20px" }} /> 
+                 
                 </LikeButton>
                 <DisLikeButton id = "Dislike_button" className="DislikeButton">
-                  <AiFillDislike style={{ fontSize: "20px" }} />
+                 
                 </DisLikeButton>
                 <button>
                   <FaCommentDots style={{ fontSize: "20px" }} />

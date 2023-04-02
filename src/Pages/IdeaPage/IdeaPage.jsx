@@ -8,6 +8,8 @@ import { FaCommentDots, FaCircle } from "react-icons/fa";
 import Modal from "../../components/Modal/Modal.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "../../App.css";
+
 function IdeaPage() {
   const [idea, setIdea] = useState([]);
 
@@ -22,6 +24,58 @@ function IdeaPage() {
       toast.error("err");
     }
   };
+  
+   function LikeButton() {
+    const [likes, setLikes] = useState(0);
+    const [liked, setLiked] = useState(false);
+    return (
+      <div className="like-button-container">
+         <button
+            className={`like-button ${liked ? 'liked' : ''}` }
+            onClick={() => {
+              if ( likes == 0) try {
+                setLikes = (likes + 1),
+                setLiked = (true),
+                setDisLikes = (0),
+                setDisLiked = (false)
+              }
+      catch (err) {setLikes = 0
+      setLiked = (false)}
+              }}>
+             <AiFillLike style={{ fontSize: "20px" }} /> 
+            {likes}
+         </button>
+      </div>
+   );
+ }
+
+ function DisLikeButton() {
+  const [Dislikes, setDisLikes] = useState(0);
+  const [Disliked, setDisLiked] = useState(false);
+  return (
+    <div className="Dislike-button-container">
+       <button
+          className={`Dislike-button ${Disliked ? 'Disliked' : ''}`}
+          onClick={() => {
+            if (Dislikes  == 0 ) 
+     try {
+             setDisLikes = (Dislikes + 1),
+             setDisLiked = (true),
+             setLiked = (false),
+             setLikes = (0) 
+            }
+            catch (err) { setDisLikes = 0
+              setDisLiked = (false)
+
+            }
+          }}
+       >
+        <AiFillDislike style={{ fontSize: "20px" }} />
+          {Dislikes}
+       </button>
+    </div>
+ );
+}
 
   useEffect(() => {
     getAllidea();
@@ -102,12 +156,12 @@ function IdeaPage() {
                 </>
               ) : null}
               <div className="col-span-12 flex items-center justify-around lg:col-span-3">
-                <button>
-                  <AiFillLike style={{ fontSize: "20px" }} />
-                </button>
-                <button>
+               <LikeButton id = "Like_button" className="LikeButton">
+                  <AiFillLike style={{ fontSize: "20px" }} /> 
+                </LikeButton>
+                <DisLikeButton id = "Dislike_button" className="DislikeButton">
                   <AiFillDislike style={{ fontSize: "20px" }} />
-                </button>
+                </DisLikeButton>
                 <button>
                   <FaCommentDots style={{ fontSize: "20px" }} />
                 </button>

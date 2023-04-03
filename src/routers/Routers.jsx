@@ -26,6 +26,7 @@ import UpdateRole from "../Pages/Admin/Role/UpdateRole";
 import ManageUser from "../Pages/Admin/User/ManageUser";
 import CreateUser from "../Pages/Admin/User/CreateUser";
 import UpdateUser from "../Pages/Admin/User/UpdateUser";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 
 const Routers = () => {
   const [auth] = useAuth();
@@ -70,6 +71,7 @@ const Routers = () => {
         path="addSubQA"
         element={checkAdmin || checkQa ? <AddSubQA /> : <Per />}
       />
+      <Route path="dashboard" element={<Dashboard />} />
       <Route path="manage-user" element={<ManageUser />} />
       <Route path="create-user" element={<CreateUser />} />
       <Route path="update-user/:id" element={<UpdateUser />} />

@@ -16,7 +16,7 @@ const CreateCategory = () => {
       });
       console.log(res.data);
       toast.success("Register Successfully");
-      navigate("/manage-category");
+      navigate("/manage-category-admin");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");

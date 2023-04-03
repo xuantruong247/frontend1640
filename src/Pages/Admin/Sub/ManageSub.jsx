@@ -3,14 +3,15 @@ import AdminMenu from "../../../components/AdminComponents/AdminMenu";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
+import moment from "moment";
 
-const ManageRole = () => {
-  const [role, setRole] = useState([]);
-  const getAllRole = async () => {
+const ManageSub = () => {
+  const [submission, setSubmission] = useState([]);
+  const getAllSub = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/admin/role");
+      const res = await axios.get("http://localhost:8080/admin/submission");
       toast.success("Get Database Successfully");
-      setRole(res.data);
+      setSubmission(res.data);
       console.log(res.data);
     } catch (error) {
       toast.error("Something went wrong");
@@ -18,12 +19,14 @@ const ManageRole = () => {
     }
   };
 
-  const deleteRole = async (id) => {
+  const deleteSub = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:8080/admin/role/${id}`);
+      const res = await axios.delete(
+        `http://localhost:8080/admin/submission/${id}`
+      );
       console.log(res.data);
-      toast.success("Delete Role successfully");
-      getAllRole();
+      toast.success("Delete Submission successfully");
+      getAllSub();
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -31,7 +34,7 @@ const ManageRole = () => {
   };
 
   useEffect(() => {
-    getAllRole();
+    getAllSub();
   }, []);
 
   return (
@@ -41,31 +44,43 @@ const ManageRole = () => {
           <AdminMenu />
         </div>
         <div className="col-md-9">
-          <h5>Manage Role</h5>
-          <NavLink to="/create-role-admin">
-            <button className="btn btn-success m-2">New Role</button>
+          <h5>Manage Submission</h5>
+          <NavLink to="/create-sub-admin">
+            <button className="btn btn-success m-2">New Submission</button>
           </NavLink>
           <div className="w-75">
             <table className="table">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
+                  <th scope="col">Dealine 1</th>
+                  <th scope="col">Dealine 2</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {role?.map((item, index) => (
+                {submission?.map((item, index) => (
                   <>
                     <tr key={index}>
                       <td>{item.name}</td>
                       <td>
-                        <NavLink to={`/update-role/admin/${item._id}`}>
+                        {moment(item.deadline_1).format(
+                          "DD - MM - YYYY h:mm a"
+                        )}
+                      </td>
+                      <td>
+                        {moment(item.deadline_2).format(
+                          "DD - MM - YYYY h:mm a"
+                        )}
+                      </td>
+                      <td>
+                        <NavLink to={`/update-sub/admin/${item._id}`}>
                           <button className="btn btn-primary">Edit</button>
                         </NavLink>
                         <button
                           className="btn btn-danger ml-2"
                           onClick={() => {
-                            deleteRole(item._id);
+                            deleteSub(item._id);
                           }}
                         >
                           Delete
@@ -83,4 +98,4 @@ const ManageRole = () => {
   );
 };
 
-export default ManageRole;
+export default ManageSub;

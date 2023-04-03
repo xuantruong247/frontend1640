@@ -2,13 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../../../context/auth";
 
-const AddSubQA = () => {
-  const [auth] = useAuth();
-  const checkAdmin = auth.users?.role?.name === "admin";
-  const checkQa = auth.users?.role?.name === "QA";
-  const checkUser = auth.users?.role?.name === "user";
+const CreateSub = () => {
   const [name, setName] = useState("");
   const [deadline_1, setDeadline_1] = useState("");
   const [deadline_2, setDeadline_2] = useState("");
@@ -23,7 +18,7 @@ const AddSubQA = () => {
         deadline_1,
         deadline_2,
       });
-      navigate("/submissionQA");
+      navigate("/manage-sub-admin");
       console.log(res.data);
       toast.success("Create success");
     } catch (error) {
@@ -32,17 +27,7 @@ const AddSubQA = () => {
     }
   };
 
-  const checkRole = () => {
-    if (checkAdmin) {
-      return <a href="/submissionAdmin">Back to list</a>;
-    }
-    if (checkQa) {
-      return <a href="/submissionQA">Back to list</a>;
-    }
-    if (checkUser) {
-      return <a href="/submission">Back to list</a>;
-    }
-  };
+ 
 
   return (
     <div className="container">
@@ -96,8 +81,7 @@ const AddSubQA = () => {
             >
               Create
             </button>
-            <br />
-            <div>{checkRole()}</div>
+
           </div>
         </form>
       </div>
@@ -105,4 +89,4 @@ const AddSubQA = () => {
   );
 };
 
-export default AddSubQA;
+export default CreateSub;

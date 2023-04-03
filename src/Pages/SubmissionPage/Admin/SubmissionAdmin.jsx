@@ -20,13 +20,6 @@ const SubmissionAdmin = () => {
 
   return (
     <div className="container mb-28 grid grid-cols-3 gap-4 row-span-2  mlg:grid-cols-2 mmd:grid-cols-1 mmd:max-w-md">
-      <div className="flex justify-end row-start-1 col-span-3">
-        <NavLink to="/addSubQA">
-          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-            Add Submission
-          </button>
-        </NavLink>
-      </div>
       {submission?.map((item, index) => (
         <div
           key={index}

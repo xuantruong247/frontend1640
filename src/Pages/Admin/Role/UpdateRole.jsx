@@ -8,7 +8,7 @@ const UpdateRole = () => {
   const [updateDesc, setUpdateDesc] = useState("");
   const {id} = useParams()
   const navigate = useNavigate();
-  const handleCreate = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.patch(`http://localhost:8080/admin/role/${id}`, {
@@ -17,7 +17,7 @@ const UpdateRole = () => {
       });
       console.log(res.data);
       toast.success("Register Successfully");
-      navigate("/manage-role");
+      navigate("/manage-role-admin");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -43,7 +43,7 @@ const UpdateRole = () => {
           <div className="w-full  max-w-md p-8 space-y-3 rounded-xl dark:bg-gray-900 dark:text-gray-100">
             <h1 className="text-2xl font-bold text-center">Update Role</h1>
             <form
-              onSubmit={handleCreate}
+              onSubmit={handleUpdate}
               novalidate=""
               action=""
               className="space-y-6 ng-untouched ng-pristine ng-valid"

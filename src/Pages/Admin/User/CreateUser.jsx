@@ -39,7 +39,7 @@ const CreateUser = () => {
       });
       console.log(res.data);
       toast.success("Register Successfully");
-      navigate("/manage-user");
+      navigate("/manage-user-admin");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");

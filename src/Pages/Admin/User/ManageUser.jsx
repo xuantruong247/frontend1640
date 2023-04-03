@@ -20,9 +20,7 @@ const ManageUser = () => {
 
   const deleteUser = async (id) => {
     try {
-      const res = await axios.delete(
-        `http://localhost:8080/admin/user/${id}`
-      );
+      const res = await axios.delete(`http://localhost:8080/admin/user/${id}`);
       console.log(res.data);
       toast.success("Delete Role successfully");
       getAllUser();
@@ -42,9 +40,9 @@ const ManageUser = () => {
         <div className="col-md-3">
           <AdminMenu />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-9">
           <h5>Manage User</h5>
-          <NavLink to="/create-user">
+          <NavLink to="/create-user-admin">
             <button className="btn btn-success m-2">New User</button>
           </NavLink>
           <div className="w-75">
@@ -56,7 +54,6 @@ const ManageUser = () => {
                   <th scope="col">Email</th>
                   <th scope="col">Role</th>
                   <th scope="col">Action</th>
-
                 </tr>
               </thead>
               <tbody>
@@ -68,13 +65,11 @@ const ManageUser = () => {
                       <td>{item?.profile?.email}</td>
                       <td>{item?.role?.name}</td>
                       <td>
-                        <NavLink to={`/update-user/${item._id}`}>
-                        <button className="btn btn-primary">Edit</button>
+                        <NavLink to={`/update-user/admin/${item._id}`}>
+                          <button className="btn btn-primary">Edit</button>
                         </NavLink>
-                      </td>
-                      <td>
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-danger ml-2"
                           onClick={() => {
                             deleteUser(item._id);
                           }}

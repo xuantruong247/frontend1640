@@ -1,14 +1,13 @@
 import React from "react";
-import QAMenu from "../../components/QAComponents/QAMenu";
+import ManageIdeaQA from "./Idea/ManageIdeaQA";
 
 const ManageQA = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-3">
-          <QAMenu />
+        <div className="col-md-12">
+          <ManageIdeaQA />
         </div>
-        <div className="col-md-9"></div>
       </div>
     </div>
   );

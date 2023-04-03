@@ -6,16 +6,14 @@ const QAMenu = () => {
     <>
       <div className="text-center">
         <div class="list-group">
-          <h4>QA Panel</h4>
-
           <NavLink
-            to="/manage-idea"
+            to="/manage-idea-QA"
             className="list-group-item list-group-item-action"
           >
             Idea
           </NavLink>
           <NavLink
-            to="/manage-sub"
+            to="/manage-sub-QA"
             className="list-group-item list-group-item-action"
           >
             Submission

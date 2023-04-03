@@ -42,9 +42,9 @@ const ManageCategory = () => {
         <div className="col-md-3">
           <AdminMenu />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-9">
           <h5>Manage Category</h5>
-          <NavLink to="/create-category">
+          <NavLink to="/create-category-admin">
             <button className="btn btn-success m-2">New Category</button>
           </NavLink>
           <div className="w-75">
@@ -61,13 +61,11 @@ const ManageCategory = () => {
                     <tr key={index}>
                       <td>{item.name}</td>
                       <td>
-                        <NavLink to={`/update-category/${item._id}`}>
+                        <NavLink to={`/update-category/admin${item._id}`}>
                           <button className="btn btn-primary">Edit</button>
                         </NavLink>
-                      </td>
-                      <td>
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-danger ml-2"
                           onClick={() => {
                             deleteCategory(item._id);
                           }}

@@ -13,31 +13,31 @@ const AdminMenu = () => {
             Dashboard
           </NavLink>
           <NavLink
-            to="/manage-user"
+            to="/manage-user-admin"
             className="list-group-item list-group-item-action"
           >
             Users
           </NavLink>
           <NavLink
-            to="/manage-category"
+            to="/manage-category-admin"
             className="list-group-item list-group-item-action"
           >
             Category
           </NavLink>
           <NavLink
-            to="/manage-role"
+            to="/manage-role-admin"
             className="list-group-item list-group-item-action"
           >
             Role
           </NavLink>
           <NavLink
-            to="/manage-idea"
+            to="/manage-idea-admin"
             className="list-group-item list-group-item-action"
           >
             Idea
           </NavLink>
           <NavLink
-            to="/manage-sub"
+            to="/manage-sub-admin"
             className="list-group-item list-group-item-action"
           >
             Submission

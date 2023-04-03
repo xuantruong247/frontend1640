@@ -30,7 +30,7 @@ const UpdateUser = () => {
       toast.success("Register Successfully");
       setUpdateRole(res.data);
       console.log(res.data);
-      navigate("/manage-user");
+      navigate("/manage-user-admin");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");

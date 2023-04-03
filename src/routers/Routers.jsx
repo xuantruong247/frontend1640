@@ -9,15 +9,13 @@ import AddIdea from "../Pages/IdeaPage/AddIdea";
 import ListIdea from "../Pages/IdeaPage/ListIdea";
 import SubmissionAdmin from "../Pages/SubmissionPage/Admin/SubmissionAdmin";
 import SubmissionQA from "../Pages/SubmissionPage/QA/SubmissionQA";
-import AddSubQA from "../Pages/SubmissionPage/QA/AddSubQA";
 import { useAuth } from "../context/auth";
 import HomePage from "../Pages/HomePage/HomePage";
 import Per from "../components/Error/Per";
 import ManageCategory from "../Pages/Admin/Category/ManageCategory";
 import ManageAdmin from "../Pages/Admin/ManageAdmin";
 import ManageQA from "../Pages/QA/ManageQA";
-import ManageIdea from "../Pages/QA/ManageIdea";
-import ManageSub from "../Pages/QA/ManageSub";
+import ManageSub from "../Pages/Admin/Sub/ManageSub";
 import CreateCategory from "../Pages/Admin/Category/CreateCategory";
 import UpdateCategory from "../Pages/Admin/Category/UpdateCategory";
 import ManageRole from "../Pages/Admin/Role/ManageRole";
@@ -26,7 +24,16 @@ import UpdateRole from "../Pages/Admin/Role/UpdateRole";
 import ManageUser from "../Pages/Admin/User/ManageUser";
 import CreateUser from "../Pages/Admin/User/CreateUser";
 import UpdateUser from "../Pages/Admin/User/UpdateUser";
-import Dashboard from "../Pages/Dashboard/Dashboard";
+import Dashboard from "../Pages/Admin/Dashboard/Dashboard";
+import UpdateSub from "../Pages/Admin/Sub/UpdateSub";
+import CreateSub from "../Pages/Admin/Sub/CreateSub";
+import ManageIdea from "../Pages/Admin/Idea/ManageIdea";
+import UpdateIdea from "../Pages/Admin/Idea/UpdateIdea";
+import CreateIdea from "../Pages/Admin/Idea/CreateIdea";
+import ManageIdeaQA from "../Pages/QA/Idea/ManageIdeaQA";
+import ManageSubQA from "../Pages/QA/Sub/ManageSubQA";
+import CreateSubQA from "../Pages/QA/Sub/CreateSubQA";
+import UpdateSubQA from "../Pages/QA/Sub/UpdateSubQA"
 
 const Routers = () => {
   const [auth] = useAuth();
@@ -61,29 +68,83 @@ const Routers = () => {
         element={checkQa ? <SubmissionQA /> : <Per />}
       />
       <Route path="manageQA" element={<ManageQA />} />
+      <Route path="manage-idea-QA" element={<ManageIdeaQA />} />
+
+      <Route path="manage-sub-QA" element={<ManageSubQA />} />
+      <Route path="create-sub-QA" element={<CreateSubQA />} />
+      <Route path="update-sub-QA/:id" element={<UpdateSubQA />} />
 
       {/* Admin */}
+      <Route
+        path="manageAdmin"
+        element={checkAdmin ? <ManageAdmin /> : <Per />}
+      />
       <Route
         path="submissionAdmin"
         element={checkAdmin ? <SubmissionAdmin /> : <Per />}
       />
+
+      <Route path="dashboard" element={checkAdmin ? <Dashboard /> : <Per />} />
       <Route
-        path="addSubQA"
-        element={checkAdmin || checkQa ? <AddSubQA /> : <Per />}
+        path="manage-user-admin"
+        element={checkAdmin ? <ManageUser /> : <Per />}
       />
-      <Route path="dashboard" element={<Dashboard />} />
-      <Route path="manage-user" element={<ManageUser />} />
-      <Route path="create-user" element={<CreateUser />} />
-      <Route path="update-user/:id" element={<UpdateUser />} />
-      <Route path="manage-category" element={<ManageCategory />} />
-      <Route path="create-category" element={<CreateCategory />} />
-      <Route path="update-category/:id" element={<UpdateCategory />} />
-      <Route path="manageAdmin" element={<ManageAdmin />} />
-      <Route path="manage-idea" element={<ManageIdea />} />
-      <Route path="manage-sub" element={<ManageSub />} />
-      <Route path="manage-role" element={<ManageRole />} />
-      <Route path="create-role" element={<CreateRole />} />
-      <Route path="update-role/:id" element={<UpdateRole />} />
+      <Route
+        path="create-user-admin"
+        element={checkAdmin ? <CreateUser /> : <Per />}
+      />
+      <Route
+        path="update-user/admin/:id"
+        element={checkAdmin ? <UpdateUser /> : <Per />}
+      />
+      <Route
+        path="manage-category-admin"
+        element={checkAdmin ? <ManageCategory /> : <Per />}
+      />
+      <Route
+        path="create-category-admin"
+        element={checkAdmin ? <CreateCategory /> : <Per />}
+      />
+      <Route
+        path="update-category/admin/:id"
+        element={checkAdmin ? <UpdateCategory /> : <Per />}
+      />
+      <Route
+        path="manage-idea-admin"
+        element={checkAdmin ? <ManageIdea /> : <Per />}
+      />
+      <Route
+        path="create-idea-admin"
+        element={checkAdmin ? <CreateIdea /> : <Per />}
+      />
+      <Route
+        path="update-idea/admin/:id"
+        element={checkAdmin ? <UpdateIdea /> : <Per />}
+      />
+      <Route
+        path="manage-sub-admin"
+        element={checkAdmin ? <ManageSub /> : <Per />}
+      />
+      <Route
+        path="create-sub-admin"
+        element={checkAdmin ? <CreateSub /> : <Per />}
+      />
+      <Route
+        path="update-sub/admin/:id"
+        element={checkAdmin ? <UpdateSub /> : <Per />}
+      />
+      <Route
+        path="manage-role-admin"
+        element={checkAdmin ? <ManageRole /> : <Per />}
+      />
+      <Route
+        path="create-role-admin"
+        element={checkAdmin ? <CreateRole /> : <Per />}
+      />
+      <Route
+        path="update-role/admin/:id"
+        element={checkAdmin ? <UpdateRole /> : <Per />}
+      />
     </Routes>
   );
 };

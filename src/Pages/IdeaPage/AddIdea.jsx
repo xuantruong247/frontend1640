@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../../context/auth";
+// import { useAuth } from "../../context/auth";
 import { NavLink, useParams } from "react-router-dom";
 
 const AddIdea = () => {
-  const [auth] = useAuth();
-  const checkAdmin = auth.users?.role?.name === "admin";
-  const checkQa = auth.users?.role?.name === "QA";
-  const checkUser = auth.users?.role?.name === "user";
-  
+  // const [auth] = useAuth();
+  // const checkAdmin = auth.users?.role?.name === "admin";
+  // const checkQa = auth.users?.role?.name === "QA";
+  // const checkUser = auth.users?.role?.name === "user";
+
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [accessToken, setAccessToken] = useState("");
 
-  const converBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
+  // const converBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
 
-      fileReader.onerror = (err) => {
-        reject(err);
-      };
-    });
-  };
+  //     fileReader.onerror = (err) => {
+  //       reject(err);
+  //     };
+  //   });
+  // };
   // Form data để lưu rồi lát bỏ này zô body  title, desc, submission_id, content, category_id
   const [ideaInfo, setIdeaInfo] = useState({
     title: "",
@@ -38,7 +38,7 @@ const AddIdea = () => {
     avatar: "",
   });
   //Biến để ref với cái form.
-  const { title, desc, submission_id, content, category_id,avatar } = ideaInfo;
+  const { title, desc, submission_id, content, category_id, avatar } = ideaInfo;
   // Khi m change dât trong cái biến nó set giá trị vô cái form
   const onChangeUserInfo = (event) =>
     setIdeaInfo({
@@ -100,8 +100,8 @@ const AddIdea = () => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          "x-access-token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDBhOTk3NDVjMjMwY2JmYmNhMTI5ZjMiLCJpYXQiOjE2ODAxODIyNDN9.sT1DnGpr458wyxNgvbm5TzusGBybqNja5tiUt002ESk'
-          
+          "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDBhOTk3NDVjMjMwY2JmYmNhMTI5ZjMiLCJpYXQiOjE2ODAxODIyNDN9.sT1DnGpr458wyxNgvbm5TzusGBybqNja5tiUt002ESk",
         },
       }
     );
@@ -122,7 +122,7 @@ const AddIdea = () => {
   //     {
   //       headers: {
   //         "Content-Type": "multipart/form-data",
-         
+
   //       },
   //     }
   //   );
@@ -148,17 +148,17 @@ const AddIdea = () => {
       });
   }, []);
 
-  const checkRole = () => {
-    if (checkAdmin) {
-      return <a href="/submissionAdmin">Back to list</a>;
-    }
-    if (checkQa) {
-      return <a href="/submissionQA">Back to list</a>;
-    }
-    if (checkUser) {
-      return <a href="/submission">Back to list</a>;
-    }
-  };
+  // const checkRole = () => {
+  //   if (checkAdmin) {
+  //     return <a href="/submissionAdmin">Back to list</a>;
+  //   }
+  //   if (checkQa) {
+  //     return <a href="/submissionQA">Back to list</a>;
+  //   }
+  //   if (checkUser) {
+  //     return <a href="/submission">Back to list</a>;
+  //   }
+  // };
 
   const handleCategoryChange = (event) => {
     console.log(event.target);
@@ -207,22 +207,22 @@ const AddIdea = () => {
               name="content"
               onChange={onChangeUserInfo}
             />
-            {loading ? (
+            {/* {loading ? (
               <div>loading..........</div>
             ) : (
-              <>
-                <label className="block text-black text-base mt-2" for="file">
-                  File
-                </label>
-                <input
-                  name="avatar"
-                  accept="image/*"
-                  onChange={onUploadFileChange}
-                  className=" border-2 rounded w-full text-black "
-                  type="file"
-                />
-              </>
-            )}
+              <> */}
+            <label className="block text-black text-base mt-2" for="file">
+              File
+            </label>
+            <input
+              name="avatar"
+              accept="image/*"
+              onChange={onUploadFileChange}
+              className=" border-2 rounded w-full text-black "
+              type="file"
+            />
+            {/* </> */}
+            {/* )} */}
             <img
               src={ideaInfo.avatar}
               style={{ width: "90%", height: "60%" }}
@@ -249,7 +249,7 @@ const AddIdea = () => {
               Create
             </button>
             <br />
-            <div>{checkRole()}</div>
+            {/* <div>{checkRole()}</div> */}
           </div>
         </form>
       </div>

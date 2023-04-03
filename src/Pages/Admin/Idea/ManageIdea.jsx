@@ -36,17 +36,15 @@ const ManageIdea = () => {
   }, []);
 
   return (
-    <div className="container-fluid">
+    <div className="container">
       <div className="row">
         <div className="col-md-3">
           <AdminMenu />
         </div>
         <div className="col-md-9">
           <h5>Manage Idea</h5>
-          <NavLink to="/create-idea">
-            <button className="btn btn-success m-2">New Idea</button>
-          </NavLink>
-          <div className="w-75">
+
+          <div className="w-75 mt-3">
             <table className="table">
               <thead>
                 <th>Title</th>
@@ -66,13 +64,10 @@ const ManageIdea = () => {
                       <td>{item.desc}</td>
                       <td>{item.desc}</td>
                       <td>
-                        <NavLink to={`/update-idea/${item._id}`}>
-                        <button className="btn btn-primary">Edit</button>
-                        </NavLink>
                         <button
-                          className="btn btn-danger ml-2"
+                          className="btn btn-danger"
                           onClick={() => {
-                            deleteIdea(item._id)
+                            deleteIdea(item._id);
                           }}
                         >
                           Delete

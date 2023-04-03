@@ -36,7 +36,7 @@ const deleteIdeaQA = async (id) => {
   }, []);
 
   return (
-    <div className="container-fluid">
+    <div className="container">
       <div className="row">
         <div className="col-md-3">
           <QAMenu />
@@ -64,11 +64,8 @@ const deleteIdeaQA = async (id) => {
                       <td>{item.desc}</td>
                       <td>{item.desc}</td>
                       <td>
-                        <NavLink to={`/update-idea/${item._id}`}>
-                          <button className="btn btn-primary">Edit</button>
-                        </NavLink>
                         <button
-                          className="btn btn-danger ml-2"
+                          className="btn btn-danger"
                           onClick={() => {
                             deleteIdeaQA(item._id);
                           }}

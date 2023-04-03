@@ -3,7 +3,7 @@ import Dashboard from "../Admin/Dashboard/Dashboard";
 
 const ManageAdmin = () => {
   return (
-    <div className="container-fluid">
+    <div className="container">
       <div className="row">
         <div className="col-md-12">
           <Dashboard />

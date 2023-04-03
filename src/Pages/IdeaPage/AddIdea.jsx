@@ -1,33 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import { useAuth } from "../../context/auth";
-import { NavLink, useParams } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddIdea = () => {
-  // const [auth] = useAuth();
-  // const checkAdmin = auth.users?.role?.name === "admin";
-  // const checkQa = auth.users?.role?.name === "QA";
-  // const checkUser = auth.users?.role?.name === "user";
+  const [auth] = useAuth();
+  const checkAdmin = auth.users?.role?.name === "admin";
+  const checkQa = auth.users?.role?.name === "QA";
+  const checkUser = auth.users?.role?.name === "user";
 
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const [accessToken, setAccessToken] = useState("");
+  const navigate = useNavigate();
 
-  // const converBase64 = (file) => {
-  //   return new Promise((resolve, reject) => {
-  //     const fileReader = new FileReader();
-  //     fileReader.readAsDataURL(file);
-
-  //     fileReader.onload = () => {
-  //       resolve(fileReader.result);
-  //     };
-
-  //     fileReader.onerror = (err) => {
-  //       reject(err);
-  //     };
-  //   });
-  // };
   // Form data để lưu rồi lát bỏ này zô body  title, desc, submission_id, content, category_id
   const [ideaInfo, setIdeaInfo] = useState({
     title: "",
@@ -101,33 +89,14 @@ const AddIdea = () => {
         headers: {
           "Content-Type": "multipart/form-data",
           "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDBhOTk3NDVjMjMwY2JmYmNhMTI5ZjMiLCJpYXQiOjE2ODAxODIyNDN9.sT1DnGpr458wyxNgvbm5TzusGBybqNja5tiUt002ESk",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDFjNTg4MTBjYjQ3ZjVjNDljYTA1M2EiLCJpYXQiOjE2ODA1NDU2NDJ9.dEY3f3X4rXynuUs4F9I6fLOhlmyRw5aZbssLCGKMSdI",
         },
-      }
+      },
+      toast.success("Create Idea Successfully"),
+      navigate("/idea")
     );
     console.log(response);
   };
-  // const onSubmitUpdateProfile = async (event) => {
-  //   event.preventDefault();
-  //   // setUpdateLoading(true);
-  //   console.log(ideaInfo);
-
-  //   var bodyFormData = new FormData();
-  //   bodyFormData.append("info", JSON.stringify(ideaInfo));
-  //   bodyFormData.append("avatar", avatar);
-
-  //   const response = await axios.post(
-  //     `http://localhost:8080/admin/idea`,
-  //     bodyFormData,
-  //     {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-
-  //       },
-  //     }
-  //   );
-  //   console.log(response);
-  // };
 
   useEffect(() => {
     const auth = JSON.parse(localStorage.getItem("auth"));
@@ -140,7 +109,6 @@ const AddIdea = () => {
       .then((res) => {
         setCategories(res.data);
         const categories = res.data || [];
-        // setCategoryId(categories[0]?._id);
         setIdeaInfo({ ...ideaInfo, category_id: categories[0]?._id });
       })
       .catch((err) => {
@@ -148,17 +116,17 @@ const AddIdea = () => {
       });
   }, []);
 
-  // const checkRole = () => {
-  //   if (checkAdmin) {
-  //     return <a href="/submissionAdmin">Back to list</a>;
-  //   }
-  //   if (checkQa) {
-  //     return <a href="/submissionQA">Back to list</a>;
-  //   }
-  //   if (checkUser) {
-  //     return <a href="/submission">Back to list</a>;
-  //   }
-  // };
+  const checkRole = () => {
+    if (checkAdmin) {
+      return <a href="/submissionAdmin">Back to list</a>;
+    }
+    if (checkQa) {
+      return <a href="/submissionQA">Back to list</a>;
+    }
+    if (checkUser) {
+      return <a href="/submission">Back to list</a>;
+    }
+  };
 
   const handleCategoryChange = (event) => {
     console.log(event.target);
@@ -207,10 +175,7 @@ const AddIdea = () => {
               name="content"
               onChange={onChangeUserInfo}
             />
-            {/* {loading ? (
-              <div>loading..........</div>
-            ) : (
-              <> */}
+
             <label className="block text-black text-base mt-2" for="file">
               File
             </label>
@@ -221,8 +186,7 @@ const AddIdea = () => {
               className=" border-2 rounded w-full text-black "
               type="file"
             />
-            {/* </> */}
-            {/* )} */}
+
             <img
               src={ideaInfo.avatar}
               style={{ width: "90%", height: "60%" }}
@@ -249,7 +213,7 @@ const AddIdea = () => {
               Create
             </button>
             <br />
-            {/* <div>{checkRole()}</div> */}
+            <div>{checkRole()}</div>
           </div>
         </form>
       </div>

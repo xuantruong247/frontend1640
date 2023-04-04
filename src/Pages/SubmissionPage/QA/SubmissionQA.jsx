@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 
 const SubmissionQA = () => {
   const [submission, setSubmission] = useState([]);
-
+  const [idea, setIdea] = useState([]);
+  const XLSX=require('xlsx');
   const getAllSub = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/submission");
@@ -16,9 +17,27 @@ const SubmissionQA = () => {
       console.log(error);
     }
   };
+  const getAllidea = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/admin/idea");
+      setIdea(res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error("err");
+    }
+  };
+  const convertJsonToExcel=()=>{
+    const worksheet=XLSX.utils.json_to_sheet(idea);
+    const workBook=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workBook,worksheet,"idea")
+    XLSX.write(workBook,{bookType:'xlsx',type:"buffer"})
+    XLSX.write(workBook,{bookType:'xlsx',type:"binary"})
+    XLSX.writeFile(workBook,"ideaData.xlsx")
+  }
 
   useEffect(() => {
     getAllSub();
+    getAllidea();
   }, []);
 
   const isDeadlineExpired = (deadline) => {
@@ -73,7 +92,9 @@ const SubmissionQA = () => {
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2 ">
                 Export ZIP
               </button>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2">
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2"
+                onClick={convertJsonToExcel}
+              >
                 Export Excel
               </button>
             </div>

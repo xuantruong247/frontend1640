@@ -10,18 +10,15 @@ const ManageSub = () => {
   const getAllSub = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/submission");
-      const updatedSubmission = res.data.map((item) => {
-        const isDeadlineExpired = moment(item.deadline_2).isBefore(moment());
-        return {
-          ...item,
-          status: isDeadlineExpired ? "expired" : "unexpired",
-        };
-      });
-      setSubmission(updatedSubmission);
+      setSubmission(res.data);
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
     }
+  };
+
+  const isDeadlineExpired = (deadline) => {
+    return moment(deadline).isBefore(moment());
   };
 
   const deleteSub = async (id) => {
@@ -47,60 +44,67 @@ const ManageSub = () => {
           <AdminMenu />
         </div>
         <div className="col-md-9">
-          <h5>Manage Submission</h5>
-          <NavLink to="/create-sub-admin">
-            <button className="btn btn-success m-2">New Submission</button>
-          </NavLink>
-          <div className="w-75">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Dealine 1</th>
-                  <th scope="col">Dealine 2</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {submission?.map((item, index) => (
-                  <>
-                    <tr
-                      key={index}
-                      style={{
-                        color: moment(item.deadline_2).isBefore(moment())
-                          ? "red"
-                          : "black",
-                      }}
-                    >
-                      <td>{item.name}</td>
-                      <td>
-                        {moment(item.deadline_1).format(
-                          "DD - MM - YYYY h:mm a"
-                        )}
-                      </td>
-                      <td>
-                        {moment(item.deadline_2).format(
-                          "DD - MM - YYYY h:mm a"
-                        )}
-                      </td>
-                      <td>
-                        <NavLink to={`/update-sub/admin/${item._id}`}>
-                          <button className="btn btn-primary">Edit</button>
-                        </NavLink>
-                        <button
-                          className="btn btn-danger ml-2"
-                          onClick={() => {
-                            deleteSub(item._id);
-                          }}
+          <div className="">
+            <h5>Manage Submission</h5>
+            <NavLink to="/create-sub-admin">
+              <button className="btn btn-success m-2">New Submission</button>
+            </NavLink>
+            <div className="w-75">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Deadline 1</th>
+                    <th scope="col">Deadline 2</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {submission?.map((item, index) => (
+                    <>
+                      <tr key={index}>
+                        <td>{item.name}</td>
+                        <td
+                          className={
+                            isDeadlineExpired(item.deadline_1)
+                              ? "text-red-500  font-normal"
+                              : "text-black  font-normal"
+                          }
                         >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  </>
-                ))}
-              </tbody>
-            </table>
+                          {moment(item.deadline_1).format(
+                            "DD - MM - YYYY h:mm a"
+                          )}
+                        </td>
+                        <td
+                          className={
+                            isDeadlineExpired(item.deadline_2)
+                              ? "text-red-500  font-normal"
+                              : "text-black font-normal"
+                          }
+                        >
+                          {moment(item.deadline_2).format(
+                            "DD - MM - YYYY h:mm a"
+                          )}
+                        </td>
+                        <td>
+                          <NavLink to={`/update-sub/admin/${item._id}`}>
+                            <button className="btn btn-primary">Edit</button>
+                          </NavLink>
+                          <button
+                            className="btn btn-danger ml-2"
+                            onClick={() => {
+                              deleteSub(item._id);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    </>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

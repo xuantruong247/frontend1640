@@ -10,14 +10,7 @@ const SubmissionQA = () => {
   const getAllSub = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/submission");
-      const updatedSubmission = res.data.map((item) => {
-        const isDeadlineExpired = moment(item.deadline_2).isBefore(moment());
-        return {
-          ...item,
-          status: isDeadlineExpired ? "expired" : "unexpired",
-        };
-      });
-      setSubmission(updatedSubmission);
+      setSubmission(res.data);
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -27,6 +20,10 @@ const SubmissionQA = () => {
   useEffect(() => {
     getAllSub();
   }, []);
+
+  const isDeadlineExpired = (deadline) => {
+    return moment(deadline).isBefore(moment());
+  };
 
   return (
     <div className="container mb-28 grid grid-cols-3 gap-4 row-span-2  mlg:grid-cols-2 mmd:grid-cols-1 mmd:max-w-md">
@@ -46,14 +43,27 @@ const SubmissionQA = () => {
               alt="logoSub"
             />
             <div className="font-bold text-xl mb-2">Name: {item.name}</div>
-            <p className="d-flex">
-              Deadline_1:{"  "}
+            <p
+              className={
+                isDeadlineExpired(item.deadline_1)
+                  ? "text-red-500 d-flex font-normal"
+                  : "text-black d-flex font-normal"
+              }
+            >
+              Deadline:{" "}
               {moment(item.deadline_1).format("DD - MM - YYYY h:mm a")}
             </p>
-            <p className="d-flex">
-              Deadline_2:{" "}
+            <p
+              className={
+                isDeadlineExpired(item.deadline_2)
+                  ? "text-red-500 d-flex font-normal"
+                  : "text-black d-flex font-normal"
+              }
+            >
+              Deadline:{" "}
               {moment(item.deadline_2).format("DD - MM - YYYY h:mm a")}
             </p>
+
             <div className="flex justify-center">
               <NavLink to={`/listidea/${item._id}`}>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-2">

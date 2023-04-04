@@ -10,18 +10,15 @@ const ManageSubQA = () => {
   const getAllSub = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/submission");
-      const updatedSubmission = res.data.map((item) => {
-        const isDeadlineExpired = moment(item.deadline_2).isBefore(moment());
-        return {
-          ...item,
-          status: isDeadlineExpired ? "expired" : "unexpired",
-        };
-      });
-      setSubmission(updatedSubmission);
+      setSubmission(res.data);
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
     }
+  };
+
+  const isDeadlineExpired = (deadline) => {
+    return moment(deadline).isBefore(moment());
   };
 
   const deleteSub = async (id) => {
@@ -64,27 +61,32 @@ const ManageSubQA = () => {
               <tbody>
                 {submission?.map((item, index) => (
                   <>
-                    <tr
-                      key={index}
-                      style={{
-                        color: moment(item.deadline_2).isBefore(moment())
-                          ? "red"
-                          : "black",
-                      }}
-                    >
+                    <tr key={index}>
                       <td>{item.name}</td>
-                      <td>
+                      <td
+                        className={
+                          isDeadlineExpired(item.deadline_1)
+                            ? "text-red-500  font-normal"
+                            : "text-black  font-normal"
+                        }
+                      >
                         {moment(item.deadline_1).format(
                           "DD - MM - YYYY h:mm a"
                         )}
                       </td>
-                      <td>
+                      <td
+                        className={
+                          isDeadlineExpired(item.deadline_2)
+                            ? "text-red-500  font-normal"
+                            : "text-black font-normal"
+                        }
+                      >
                         {moment(item.deadline_2).format(
                           "DD - MM - YYYY h:mm a"
                         )}
                       </td>
                       <td>
-                        <NavLink to={`/update-sub-QA/${item._id}`}>
+                        <NavLink to={`/update-sub/admin/${item._id}`}>
                           <button className="btn btn-primary">Edit</button>
                         </NavLink>
                         <button

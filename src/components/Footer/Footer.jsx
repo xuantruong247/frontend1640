@@ -107,9 +107,7 @@ const Footer = () => {
                   <p>Idea</p>
                 </NavLink>
               </li>
-              <li>
-                {checkRole()}
-              </li>
+              <li>{checkRole()}</li>
               <li>
                 <NavLink
                   to="/contact"

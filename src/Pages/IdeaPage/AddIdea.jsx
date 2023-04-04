@@ -168,7 +168,8 @@ const AddIdea = () => {
             >
               Content
             </label>
-            <input
+            <textarea
+            rows="4"
               className=" border-2 rounded w-full text-black py-1 "
               type="text"
               value={content}
@@ -187,12 +188,12 @@ const AddIdea = () => {
               type="file"
             />
 
-            <img
+            {/* <img
               src={ideaInfo.avatar}
               style={{ width: "90%", height: "60%" }}
               id="img-review"
               alt="img"
-            />
+            /> */}
 
             <label className="block text-black text-base mt-2">Category</label>
             <select

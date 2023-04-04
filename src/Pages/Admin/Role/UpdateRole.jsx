@@ -15,8 +15,7 @@ const UpdateRole = () => {
         name:updateName,
         description:updateDesc,
       });
-      console.log(res.data);
-      toast.success("Register Successfully");
+      toast.success("Update Role Successfully");
       navigate("/manage-role-admin");
     } catch (error) {
       console.log(error);

@@ -14,8 +14,7 @@ const CreateRole = () => {
         name,
         desc,
       });
-      console.log(res.data);
-      toast.success("Register Successfully");
+      toast.success("Create Role Successfully");
       navigate("/manage-role-admin");
     } catch (error) {
       console.log(error);

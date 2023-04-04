@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import AdminMenu from "../../../components/AdminComponents/AdminMenu";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const ManageCategory = () => {
   const [categories, setCategories] = useState([]);
   const getAllCategory = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/category");
-      toast.success("Get Database Successfully");
       setCategories(res.data);
-      console.log(res.data);
     } catch (error) {
-      toast.error("Something went wrong");
       console.log(error);
     }
   };
@@ -23,7 +20,6 @@ const ManageCategory = () => {
       const res = await axios.delete(
         `http://localhost:8080/admin/category/${id}`
       );
-      console.log(res.data);
       toast.success("Delete Category successfully");
       getAllCategory();
     } catch (error) {

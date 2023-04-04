@@ -10,9 +10,14 @@ const ManageSub = () => {
   const getAllSub = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/submission");
-      toast.success("Get Database Successfully");
-      setSubmission(res.data);
-      console.log(res.data);
+      const updatedSubmission = res.data.map((item) => {
+        const isDeadlineExpired = moment(item.deadline_2).isBefore(moment());
+        return {
+          ...item,
+          status: isDeadlineExpired ? "expired" : "unexpired",
+        };
+      });
+      setSubmission(updatedSubmission);
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -24,11 +29,9 @@ const ManageSub = () => {
       const res = await axios.delete(
         `http://localhost:8080/admin/submission/${id}`
       );
-      console.log(res.data);
       toast.success("Delete Submission successfully");
       getAllSub();
     } catch (error) {
-      toast.error("Something went wrong");
       console.log(error);
     }
   };
@@ -61,7 +64,14 @@ const ManageSub = () => {
               <tbody>
                 {submission?.map((item, index) => (
                   <>
-                    <tr key={index}>
+                    <tr
+                      key={index}
+                      style={{
+                        color: moment(item.deadline_2).isBefore(moment())
+                          ? "red"
+                          : "black",
+                      }}
+                    >
                       <td>{item.name}</td>
                       <td>
                         {moment(item.deadline_1).format(

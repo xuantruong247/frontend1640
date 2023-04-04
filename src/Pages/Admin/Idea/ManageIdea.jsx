@@ -10,12 +10,9 @@ const ManageIdea = () => {
   const getAllIdea = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/idea");
-      console.log(res.data);
-      toast.success("Get all database");
       setIdeas(res.data);
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
     }
   };
 
@@ -27,7 +24,6 @@ const ManageIdea = () => {
       getAllIdea();
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
     }
   };
 

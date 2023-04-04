@@ -2,20 +2,30 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SubmissionQA = () => {
   const [submission, setSubmission] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/admin/submission")
-      .then((res) => {
-        // console.log(res);
-        setSubmission(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
+  const getAllSub = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/admin/submission");
+      const updatedSubmission = res.data.map((item) => {
+        const isDeadlineExpired = moment(item.deadline_2).isBefore(moment());
+        return {
+          ...item,
+          status: isDeadlineExpired ? "expired" : "unexpired",
+        };
       });
+      setSubmission(updatedSubmission);
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllSub();
   }, []);
 
   return (
@@ -24,6 +34,9 @@ const SubmissionQA = () => {
       {submission?.map((item, index) => (
         <div
           key={index}
+          style={{
+            color: moment(item.deadline_2).isBefore(moment()) ? "red" : "black",
+          }}
           className="max-w-sm rounded overflow-hidden shadow-lg mb-[30px] m-auto"
         >
           <div className="px-6 py-4 text-center">
@@ -33,17 +46,13 @@ const SubmissionQA = () => {
               alt="logoSub"
             />
             <div className="font-bold text-xl mb-2">Name: {item.name}</div>
-            <p className="text-red-600 font-medium text-lg text-left">
-              Dealine_1:
-              <span className="text-gray-700 font-normal text-base pl-2">
-                {moment(item.deadline_1).format("DD - MM - YYYY h:mm a")}
-              </span>
+            <p className="d-flex">
+              Deadline_1:{"  "}
+              {moment(item.deadline_1).format("DD - MM - YYYY h:mm a")}
             </p>
-            <p className="text-red-600 font-medium text-lg text-left ">
-              Dealine_2:
-              <span className="text-gray-700 font-normal text-base pl-2">
-                {moment(item.deadline_2).format("DD - MM - YYYY h:mm a")}
-              </span>
+            <p className="d-flex">
+              Deadline_2:{" "}
+              {moment(item.deadline_2).format("DD - MM - YYYY h:mm a")}
             </p>
             <div className="flex justify-center">
               <NavLink to={`/listidea/${item._id}`}>

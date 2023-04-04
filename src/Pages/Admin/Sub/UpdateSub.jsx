@@ -1,35 +1,49 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UpdateSub = () => {
-  const [updateName, setUpdateName] = useState("");
+  // const [updateName, setUpdateName] = useState("");
   const [updateDeadline_1, setUpdateDeadline_1] = useState("");
   const [updateDeadline_2, setUpdateDeadline_2] = useState("");
+  const [submissionMap, setSubmissionMap] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
     try {
       const res = await axios.patch(
         `http://localhost:8080/admin/submission/${id}`,
         {
-          name: updateName,
+          // name: updateName,
           deadline_1: updateDeadline_1,
           deadline_2: updateDeadline_2,
         }
       );
-      console.log(res.data);
-      toast.success("Update Successfully");
-      navigate("/manage-sub-QA");
+      navigate("/manage-sub-admin");
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
     }
   };
+
+  const getFineOneSub = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/admin/submission/${id}`
+      );
+      setSubmissionMap(res.data);
+      console.log(res.data);
+      toast.success("das")
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getFineOneSub();
+  }, []);
 
   return (
     <div className="container">
@@ -48,11 +62,10 @@ const UpdateSub = () => {
               className=" border-2 rounded w-full text-black py-1 "
               type="text"
               id="name"
-              value={updateName}
-              onChange={(e) => {
-                setUpdateName(e.target.value);
-              }}
+              defaultValue={submissionMap?.name}
+              readOnly
             />
+
             <label className="block text-black text-base mt-2" for="dealine_1">
               Deadline_1
             </label>

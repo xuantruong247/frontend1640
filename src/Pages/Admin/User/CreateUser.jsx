@@ -11,14 +11,15 @@ const CreateUser = () => {
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState([]);
+  const [role, setRole] = useState("");
+  const [roleMap, setRoleMap] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     axios
       .get("http://localhost:8080/admin/role")
       .then((res) => {
         console.log(res.data);
-        setRole(res.data);
+        setRoleMap(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -35,7 +36,7 @@ const CreateUser = () => {
         lastname,
         email,
         phone,
-        role,
+        role_id: role,
       });
       console.log(res.data);
       toast.success("Register Successfully");
@@ -140,10 +141,16 @@ const CreateUser = () => {
                   }}
                   className=" mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
                 />
-                <select className="mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black">
-                  <option defaultChecked>Choose Role</option>
-                  {role?.map((item, index) => (
-                    <option key={index} value="role">
+                <select
+                  className="mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
+                  value={role}
+                  onChange={(e) => {
+                    setRole(e.target.value);
+                  }}
+                >
+                  <option>Choose Role</option>
+                  {roleMap?.map((item, index) => (
+                    <option key={index} value={item._id}>
                       {item.name}
                     </option>
                   ))}

@@ -9,9 +9,7 @@ const ManageRole = () => {
   const getAllRole = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/role");
-      toast.success("Get Database Successfully");
       setRole(res.data);
-      console.log(res.data);
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -21,7 +19,6 @@ const ManageRole = () => {
   const deleteRole = async (id) => {
     try {
       const res = await axios.delete(`http://localhost:8080/admin/role/${id}`);
-      console.log(res.data);
       toast.success("Delete Role successfully");
       getAllRole();
     } catch (error) {

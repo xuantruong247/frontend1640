@@ -13,7 +13,6 @@ function IdeaPage() {
   const [likeCount, setLikeCount] = useState(0);
   const [dislikeCount, setDislikeCount] = useState(0);
   const [activeBtn, setActiveBtn] = useState("none");
-  const [categories, setCategories] = useState([]);
 
   const getAllidea = async () => {
     try {
@@ -65,21 +64,8 @@ function IdeaPage() {
     }
   };
 
-  const getAllCategory = async () => {
-    try {
-      const res = await axios.get("http://localhost:8080/admin/category");
-      setCategories(res.data);
-      console.log(res.data);
-      toast.success("okla");
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    }
-  };
-
   useEffect(() => {
     getAllidea();
-    getAllCategory();
   }, []);
 
   const [showModal, setShowModal] = useState(false);
@@ -92,14 +78,13 @@ function IdeaPage() {
             key={index}
             className="relative w-full h-[140px] md:rounded-xl border-solid border-[1px] px-[8px] py-[8px] my-[20px]"
           >
-            {categories?.map((item, index) => (
-              <div
-                key={index}
-                className="absolute right-[20px] top-[-14px] font-bold text-lg bg-white leading-[16px] px-[6px] py-[4px] rounded-lg border-solid border"
-              >
-                {item.name}
-              </div>
-            ))}
+            <div
+              key={index}
+              className="absolute right-[20px] top-[-14px] font-bold text-lg bg-white leading-[16px] px-[6px] py-[4px] rounded-lg border-solid border"
+            >
+              {item.category.name}
+            </div>
+
             <div key={index} className="grid grid-cols-12 grid-row-2 h-full">
               <button className="col-span-2 m-auto row-end-2 lg:col-span-1">
                 <motion.img

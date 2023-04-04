@@ -14,8 +14,7 @@ const CreateCategory = () => {
         name,
         desc,
       });
-      console.log(res.data);
-      toast.success("Register Successfully");
+      toast.success("Create Category Successfully");
       navigate("/manage-category-admin");
     } catch (error) {
       console.log(error);

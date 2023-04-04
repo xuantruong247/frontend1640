@@ -6,34 +6,38 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const ManageSubQA = () => {
-  const [submissionQA, setsSubmisionQA] = useState([]);
-
-  const getAllSubQA = async () => {
+  const [submission, setSubmission] = useState([]);
+  const getAllSub = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/submission");
-      toast.success("Get db successfully");
-      console.log(res.data);
-      setsSubmisionQA(res.data);
+      const updatedSubmission = res.data.map((item) => {
+        const isDeadlineExpired = moment(item.deadline_2).isBefore(moment());
+        return {
+          ...item,
+          status: isDeadlineExpired ? "expired" : "unexpired",
+        };
+      });
+      setSubmission(updatedSubmission);
     } catch (error) {
-      console.log(error);
       toast.error("Something went wrong");
+      console.log(error);
     }
   };
 
-const deleteSubQA = async (id) => {
-  try {
-    const res = await axios.delete(`http://localhost:8080/admin/submission/${id}`)
-    console.log(res.data);
-    toast.success("Delete Sub successfully")
-    getAllSubQA()
-  } catch (error) {
-    console.log(error);
-    toast.error("Something went wrong")
-  }
-}
+  const deleteSub = async (id) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:8080/admin/submission/${id}`
+      );
+      toast.success("Delete Submission successfully");
+      getAllSub();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    getAllSubQA();
+    getAllSub();
   }, []);
 
   return (
@@ -58,9 +62,16 @@ const deleteSubQA = async (id) => {
                 </tr>
               </thead>
               <tbody>
-                {submissionQA?.map((item, index) => (
+                {submission?.map((item, index) => (
                   <>
-                    <tr key={index}>
+                    <tr
+                      key={index}
+                      style={{
+                        color: moment(item.deadline_2).isBefore(moment())
+                          ? "red"
+                          : "black",
+                      }}
+                    >
                       <td>{item.name}</td>
                       <td>
                         {moment(item.deadline_1).format(
@@ -79,7 +90,7 @@ const deleteSubQA = async (id) => {
                         <button
                           className="btn btn-danger ml-2"
                           onClick={() => {
-                            deleteSubQA(item._id);
+                            deleteSub(item._id);
                           }}
                         >
                           Delete

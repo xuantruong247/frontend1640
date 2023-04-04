@@ -4,27 +4,35 @@ import { useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import moment from "moment";
 import { useAuth } from "../../context/auth";
+import { toast } from "react-toastify";
 
 const ListIdea = () => {
   const [auth] = useAuth();
   const checkAdmin = auth.users?.role?.name === "admin";
   const checkQa = auth.users?.role?.name === "QA";
   const checkUser = auth.users?.role?.name === "user";
-  const [submisison, setSubmission] = useState({});
+  const [submissison, setSubmission] = useState([]);
   const { id } = useParams();
   console.log(id);
 
+  const getFindoneSub = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/admin/submission/${id}`
+      );
+      toast.success("ok");
+      console.log(res.data);
+      setSubmission(res.data);
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/admin/submission/${id}`)
-      .then((res) => {
-        console.log(res);
-        setSubmission(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
+    getFindoneSub();
+  }, []);
+
   const checkRole = () => {
     if (checkAdmin) {
       return <a href="/submissionAdmin">Back to list</a>;
@@ -36,6 +44,11 @@ const ListIdea = () => {
       return <a href="/submission">Back to list</a>;
     }
   };
+
+  const isDeadlineExpired = (deadline) => {
+    return moment(deadline).isBefore(moment());
+  };
+
   return (
     <div>
       <div
@@ -52,20 +65,35 @@ const ListIdea = () => {
             <p>Dealine_2: </p>
           </div>
           <div className="col-span-3 leading-3">
-            <p>{submisison.name}</p>
-            <p>
-              {moment(submisison.deadline_1).format("DD - MM - YYYY h:mm a")}
+            <p>{submissison.name}</p>
+            <p
+              className={
+                isDeadlineExpired(submissison.deadline_1)
+                  ? "text-red-500"
+                  : "text-black"
+              }
+            >
+              {moment(submissison.deadline_1).format("DD - MM - YYYY h:mm a")}
             </p>
-            <p>
-              {moment(submisison.deadline_2).format("DD - MM - YYYY h:mm a")}
+            <p
+              className={
+                isDeadlineExpired(submissison.deadline_2)
+                  ? "text-red-500"
+                  : "text-black"
+              }
+            >
+              {moment(submissison.deadline_2).format("DD - MM - YYYY h:mm a")}
             </p>
           </div>
         </div>
-        <NavLink to={`/addIdea/${id}`}>
-          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-            Add Idea
+        {!isDeadlineExpired(submissison.deadline_1) && (
+          <NavLink to={`/addIdea/${id}`}>
+            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Add Idea
           </button>
-        </NavLink>
+          </NavLink>
+        )}
+
         <div>{checkRole()}</div>
       </div>
     </div>

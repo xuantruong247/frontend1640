@@ -1,8 +1,42 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { AiOutlineRight } from "react-icons/ai";
+import { useAuth } from "../../context/auth";
 
 const Footer = () => {
+  const [auth] = useAuth();
+  const checkAdmin = auth.users?.role?.name === "admin";
+  const checkQa = auth.users?.role?.name === "QA";
+  const checkUser = auth.users?.role?.name === "user";
+
+  const checkRole = () => {
+    if (checkAdmin) {
+      return (
+        <NavLink
+          to="/submissionAdmin"
+          className="text-white no-underline text-sm flex md:text-xl"
+        >
+          <AiOutlineRight className="pt-2 text-red-500" />
+          <p>Submission</p>
+        </NavLink>
+      );
+    }
+    if (checkQa) {
+      return (
+        <NavLink
+          to="/submissionQA"
+          className="text-white no-underline text-sm flex md:text-xl"
+        >
+          <AiOutlineRight className="pt-2 text-red-500" />
+          <p>Submission</p>
+        </NavLink>
+      );
+    }
+    if (checkUser) {
+      return <a href="/submission">Back to list</a>;
+    }
+  };
+
   return (
     <footer className="py-6 bg-black text-white md:flex justify-center">
       <div className="xl:container mx-[30px] md:overflow-hidden msm:overflow-hidden">
@@ -24,17 +58,26 @@ const Footer = () => {
                 </p>
               </li>
               <li>
-                <p to="/idea" className="text-white no-underline text-sm md:text-xl">
+                <p
+                  to="/idea"
+                  className="text-white no-underline text-sm md:text-xl"
+                >
                   Hotline: 028.7300.2266
                 </p>
               </li>
               <li>
-                <p to="/submision" className="text-white no-underline text-sm md:text-xl">
+                <p
+                  to="/submision"
+                  className="text-white no-underline text-sm md:text-xl"
+                >
                   Phone: 0933.108.554
                 </p>
               </li>
               <li>
-                <p to="/contact" className="text-white no-underline text-sm md:text-xl">
+                <p
+                  to="/contact"
+                  className="text-white no-underline text-sm md:text-xl"
+                >
                   Email: group18@example.com
                 </p>
               </li>
@@ -65,13 +108,7 @@ const Footer = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/submision"
-                  className="text-white no-underline text-sm flex md:text-xl"
-                >
-                  <AiOutlineRight className="pt-2 text-red-500" />
-                  <p>Submission</p>
-                </NavLink>
+                {checkRole()}
               </li>
               <li>
                 <NavLink

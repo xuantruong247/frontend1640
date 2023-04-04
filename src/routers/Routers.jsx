@@ -28,12 +28,10 @@ import Dashboard from "../Pages/Admin/Dashboard/Dashboard";
 import UpdateSub from "../Pages/Admin/Sub/UpdateSub";
 import CreateSub from "../Pages/Admin/Sub/CreateSub";
 import ManageIdea from "../Pages/Admin/Idea/ManageIdea";
-import UpdateIdea from "../Pages/Admin/Idea/UpdateIdea";
-import CreateIdea from "../Pages/Admin/Idea/CreateIdea";
 import ManageIdeaQA from "../Pages/QA/Idea/ManageIdeaQA";
 import ManageSubQA from "../Pages/QA/Sub/ManageSubQA";
 import CreateSubQA from "../Pages/QA/Sub/CreateSubQA";
-import UpdateSubQA from "../Pages/QA/Sub/UpdateSubQA"
+import UpdateSubQA from "../Pages/QA/Sub/UpdateSubQA";
 
 const Routers = () => {
   const [auth] = useAuth();
@@ -43,6 +41,11 @@ const Routers = () => {
   const checkUser = auth.users?.role?.name === "user";
   return (
     <Routes>
+      <Route
+        path="submission"
+        element={checkAdmin || checkQa || checkUser ? <SubmissionPage /> : ""}
+      />
+
       {/* User */}
       <Route path="/" element={<Navigate to={"/home"} />} />
       <Route path="home" element={check ? <LoginPage /> : <HomePage />} />
@@ -65,7 +68,7 @@ const Routers = () => {
       {/* QA */}
       <Route
         path="submissionQA"
-        element={checkQa ? <SubmissionQA /> : <Per />}
+        element={checkQa || checkAdmin ? <SubmissionQA /> : <Per />}
       />
       <Route path="manageQA" element={<ManageQA />} />
       <Route path="manage-idea-QA" element={<ManageIdeaQA />} />
@@ -113,14 +116,7 @@ const Routers = () => {
         path="manage-idea-admin"
         element={checkAdmin ? <ManageIdea /> : <Per />}
       />
-      <Route
-        path="create-idea-admin"
-        element={checkAdmin ? <CreateIdea /> : <Per />}
-      />
-      <Route
-        path="update-idea/admin/:id"
-        element={checkAdmin ? <UpdateIdea /> : <Per />}
-      />
+
       <Route
         path="manage-sub-admin"
         element={checkAdmin ? <ManageSub /> : <Per />}

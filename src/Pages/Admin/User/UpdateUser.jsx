@@ -5,30 +5,42 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const UpdateUser = () => {
-  const [updateRole, setUpdateRole] = useState([]);
+  const [userMap, setUserMap] = useState([]);
+  const [roleMap, setRoleMap] = useState([]);
   const { id } = useParams();
-  const [userMap, setUSerMap] = useState([]);
+  const [updateRole, setUpdateRole] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/admin/role")
-      .then((res) => {
-        console.log(res.data);
-        setUpdateRole(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
-  const updateUser = async (e) => {
+  const getFindoneUser = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8080/admin/user/${id}`);
+      setUserMap(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
+
+  const getAllRole = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/admin/role");
+      console.log(res.data);
+      setRoleMap(res.data);
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
+
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.patch(`http://localhost:8080/admin/user/${id}`, {
         role_id: updateRole,
       });
-      toast.success("Update Successfully");
       console.log(res.data);
+      toast.success("Update User Successfully");
       navigate("/manage-user-admin");
     } catch (error) {
       console.log(error);
@@ -36,20 +48,9 @@ const UpdateUser = () => {
     }
   };
 
-  const getFindOneUser = async () => {
-    try {
-      const res = await axios.get(`http://localhost:8080/admin/user/${id}`);
-      setUSerMap(res.data);
-      console.log(res.data);
-      toast.success("ok");
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    }
-  };
-
   useEffect(() => {
-    getFindOneUser();
+    getFindoneUser();
+    getAllRole();
   }, []);
 
   return (
@@ -71,58 +72,45 @@ const UpdateUser = () => {
           <div className="w-full  max-w-md p-8 space-y-3 rounded-xl dark:bg-gray-900 dark:text-gray-100">
             <h1 className="text-2xl font-bold text-center">Create User</h1>
             <form
-              onSubmit={updateUser}
               novalidate=""
               action=""
               className="space-y-6 ng-untouched ng-pristine ng-valid"
+              onSubmit={handleUpdate}
             >
               <div className="space-y-1 text-sm">
-                {/* <input
+                <input
                   type="text"
                   name="username"
                   id="username"
-                  defaultValue={userMap?.username}
                   readOnly
+                  defaultValue={userMap.username}
                   className=" mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
                 />
-                <input
-                  type="text"
-                  name="firstname"
-                  id="firstname"
-                  defaultValue={userMap?.profile?.first_name}
-                  readOnly
-                  className=" mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
-                />
-
-                <input
-                  type="text"
-                  name="lastname"
-                  id="lastname"
-                  defaultValue={userMap?.profile?.last_name}
-                  readOnly
-                  className=" mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
-                />
-
                 <input
                   type="email"
                   name="email"
                   id="email"
-                  defaultValue={userMap?.profile?.email}
                   readOnly
+                  defaultValue={userMap?.profile?.email}
                   className=" mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
                 />
-
                 <input
                   type="number"
                   name="phone"
                   id="phone"
-                  defaultValue={userMap?.profile?.phone}
                   readOnly
+                  defaultValue={userMap?.profile?.phone}
                   className=" mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
-                /> */}
-                <select className="mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black">
-                  <option defaultChecked>Choose Role</option>
-                  {updateRole?.map((item, index) => (
+                />
+                <select
+                  className="mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
+                  value={updateRole}
+                  onChange={(role) => {
+                    setUpdateRole(role.target.value);
+                  }}
+                >
+                  <option>Choose Role</option>
+                  {roleMap?.map((item, index) => (
                     <option key={index} value={item._id}>
                       {item.name}
                     </option>

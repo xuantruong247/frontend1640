@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import AdminMenu from "../../../components/AdminComponents/AdminMenu";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const ManageUser = () => {
-  const [role, setRole] = useState([]);
+  const [user, setUser] = useState([]);
   const getAllUser = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/user");
-      setRole(res.data);
+      setUser(res.data);
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -55,7 +55,7 @@ const ManageUser = () => {
                 </tr>
               </thead>
               <tbody>
-                {role?.map((item, index) => (
+                {user?.map((item, index) => (
                   <>
                     <tr key={index}>
                       <td>{item.username}</td>

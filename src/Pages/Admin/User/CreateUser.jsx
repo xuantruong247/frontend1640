@@ -7,8 +7,6 @@ import { toast } from "react-toastify";
 const CreateUser = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
@@ -32,8 +30,7 @@ const CreateUser = () => {
       const res = await axios.post("http://localhost:8080/admin/user", {
         username,
         password,
-        firstname,
-        lastname,
+
         email,
         phone,
         role_id: role,
@@ -94,7 +91,7 @@ const CreateUser = () => {
                   }}
                   className=" mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
                 />
-                <input
+                {/* <input
                   type="text"
                   name="firstname"
                   id="firstname"
@@ -116,7 +113,7 @@ const CreateUser = () => {
                     setLastName(e.target.value);
                   }}
                   className=" mt-3 w-full px-4 py-2 rounded-md border-gray-700 bg-white text-black"
-                />
+                /> */}
 
                 <input
                   type="email"

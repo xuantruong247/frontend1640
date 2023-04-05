@@ -25,6 +25,7 @@ const SubmissionPage = () => {
     return moment(deadline).isBefore(moment());
   };
 
+
   return (
     <div className="container mb-28 grid grid-cols-3 gap-4  mlg:grid-cols-2 mmd:grid-cols-1 mmd:max-w-md">
       {submission?.map((item, index) => (

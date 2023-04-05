@@ -55,7 +55,9 @@ const ManageIdea = () => {
                   <tr key={index}>
                     <>
                       <td>{item.title}</td>
-                      <td>{item.content}</td>
+                      <td style={{ maxWidth: "350px", overflow: "auto" }}>
+                        {item.content}
+                      </td>
                       <td>{item.desc}</td>
                       <td>{item.desc}</td>
                       <td>{item.desc}</td>

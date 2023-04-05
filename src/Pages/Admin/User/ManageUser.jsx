@@ -9,9 +9,7 @@ const ManageUser = () => {
   const getAllUser = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/user");
-      toast.success("Get Database Successfully");
       setRole(res.data);
-      console.log(res.data);
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);

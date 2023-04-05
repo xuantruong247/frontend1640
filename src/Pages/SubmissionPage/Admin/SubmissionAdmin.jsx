@@ -3,6 +3,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import FileSaver from "file-saver"
 
 const SubmissionAdmin = () => {
   const [submission, setSubmission] = useState([]);
@@ -23,6 +24,18 @@ const SubmissionAdmin = () => {
 
   const isDeadlineExpired = (deadline) => {
     return moment(deadline).isBefore(moment());
+  };
+
+  const exportZip = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/export-zip", {
+        responseType: "blob",
+      });
+      const zipBlob = new Blob([res.data], { type: "application/zip" });
+      FileSaver.saveAs(zipBlob, "file.zip");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -69,7 +82,10 @@ const SubmissionAdmin = () => {
                   View Ideas
                 </button>
               </NavLink>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2 ">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2 "
+                onClick={exportZip}
+              >
                 Export ZIP
               </button>
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2">

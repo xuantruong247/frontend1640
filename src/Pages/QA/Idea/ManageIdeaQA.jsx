@@ -10,8 +10,6 @@ const ManageIdeaQA = () => {
   const getAllIdeaQa = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/idea");
-      console.log(res.data);
-      toast.success("Get Db successfully");
       setIdeaQA(res.data);
     } catch (error) {
       console.log(error);

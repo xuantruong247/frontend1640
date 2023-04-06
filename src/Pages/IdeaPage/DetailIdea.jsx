@@ -2,16 +2,32 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import {
-  AiOutlineLike,
-  AiOutlineDislike,
-  AiOutlineComment,
-} from "react-icons/ai";
+import { AiFillLike, AiFillDislike, AiOutlineComment } from "react-icons/ai";
 import { GrView } from "react-icons/gr";
 
 const DetailIdea = () => {
   const [ideaOne, setIdeaOne] = useState([]);
   const { id } = useParams();
+  const [likeColor, setLikeColor] = useState("silver");
+  const [dislikeColor, setDislikeColor] = useState("silver");
+
+  const handleLikeClick = () => {
+    if (likeColor === "silver") {
+      setLikeColor("black");
+      setDislikeColor("silver");
+    } else {
+      setLikeColor("silver");
+    }
+  };
+
+  const handleDislikeClick = () => {
+    if (dislikeColor === "silver") {
+      setDislikeColor("black");
+      setLikeColor("silver");
+    } else {
+      setDislikeColor("silver");
+    }
+  };
 
   const getFindOne = async () => {
     try {
@@ -59,13 +75,25 @@ const DetailIdea = () => {
 
               <div className="col-md-9">
                 <div className="bg-gray-500 w-32 d-flex justify-between rounded ">
-                  <button className="btn btn-secondary d-flex">
-                    <AiOutlineLike className="text-xl " />
+                  <button
+                    className="btn btn-secondary d-flex"
+                    onClick={handleLikeClick}
+                  >
+                    <AiFillLike
+                      className="text-xl"
+                      style={{ color: likeColor }}
+                    />
                     Like
                   </button>
                   <span className="text-white text-xl">|</span>
-                  <button className="btn btn-secondary d-flex">
-                    <AiOutlineDislike className="text-xl " />
+                  <button
+                    className="btn btn-secondary d-flex"
+                    onClick={handleDislikeClick}
+                  >
+                    <AiFillDislike
+                      className="text-xl"
+                      style={{ color: dislikeColor }}
+                    />
                     Dislike
                   </button>
                   <a
@@ -97,9 +125,7 @@ const DetailIdea = () => {
           />
           <button className="btn btn-success mb-2 ml-2">Sent Comment</button>
         </div>
-        <div>
-            show người comment
-        </div>
+        <div>show người comment</div>
       </div>
     </div>
   );

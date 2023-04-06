@@ -89,7 +89,7 @@ const AddIdea = () => {
         headers: {
           "Content-Type": "multipart/form-data",
           "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDFjNTg4MTBjYjQ3ZjVjNDljYTA1M2EiLCJpYXQiOjE2ODA1NDU2NDJ9.dEY3f3X4rXynuUs4F9I6fLOhlmyRw5aZbssLCGKMSdI",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJkOGUzNTRiYTQ5N2FhZjViNWJkZGUiLCJpYXQiOjE2ODA3Nzc3OTJ9.7h0kkIlzzi2WF_7_2ET0QcBflGh3xZHb2r-qbDsaPV0",
         },
       },
       toast.success("Create Idea Successfully"),

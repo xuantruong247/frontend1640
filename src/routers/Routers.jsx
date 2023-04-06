@@ -32,6 +32,7 @@ import ManageIdeaQA from "../Pages/QA/Idea/ManageIdeaQA";
 import ManageSubQA from "../Pages/QA/Sub/ManageSubQA";
 import CreateSubQA from "../Pages/QA/Sub/CreateSubQA";
 import UpdateSubQA from "../Pages/QA/Sub/UpdateSubQA";
+import DetailIdea from "../Pages/IdeaPage/DetailIdea";
 
 const Routers = () => {
   const [auth] = useAuth();
@@ -50,6 +51,7 @@ const Routers = () => {
       <Route path="/" element={<Navigate to={"/home"} />} />
       <Route path="home" element={check ? <LoginPage /> : <HomePage />} />
       <Route path="idea" element={check ? <LoginPage /> : <IdeaPage />} />
+      <Route path="idea/:id" element={check ? <LoginPage /> : <DetailIdea />} />
       <Route
         path="submission"
         element={check ? <LoginPage /> : <SubmissionPage />}

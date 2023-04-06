@@ -81,6 +81,9 @@
     fill: #2196f3;
 }
 
+
+
+
 /* For mobile screens */
 @media (max-width: 768px) {
     .like-button-container {

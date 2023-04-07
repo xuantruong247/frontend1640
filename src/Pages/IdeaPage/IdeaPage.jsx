@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 const IdeaPage = () => {
   const [ideaMap, setIdeaMap] = useState([]);
 
+  const token = JSON.parse(localStorage.getItem("auth")).accessToken;
+
   const getAllIdeas = async () => {
     try {
       const res = await axios.get("http://localhost:8080/admin/idea");
@@ -22,8 +24,7 @@ const IdeaPage = () => {
         method: "get",
         url: `http://localhost:8080/auth/views/${id}`,
         headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJkOGRmMjRiYTQ5N2FhZjViNWJkZDYiLCJpYXQiOjE2ODA3OTY2OTh9.H0BEzW5eR4O03eTfjvzq8OdC41yhMkOJbe-raPSWKxQ",
+          "x-access-token": `${token}`,
         },
       });
     } catch (error) {

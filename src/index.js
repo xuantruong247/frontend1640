@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from './context/auth';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 // axios.interceptors.request.use(

@@ -3,7 +3,6 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
-import FileSaver from "file-saver"
 import { saveAs } from "file-saver";
 const JSZip = require("jszip");
 

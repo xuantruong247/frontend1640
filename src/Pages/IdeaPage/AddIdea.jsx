@@ -92,9 +92,17 @@ const AddIdea = () => {
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJkOGUzNTRiYTQ5N2FhZjViNWJkZGUiLCJpYXQiOjE2ODA3Nzc3OTJ9.7h0kkIlzzi2WF_7_2ET0QcBflGh3xZHb2r-qbDsaPV0",
         },
       },
-      toast.success("Create Idea Successfully"),
-      navigate("/idea")
+      toast.success("Create Idea Successfully")
     );
+    if (checkAdmin) {
+      navigate("/submissionAdmin");
+    }
+    if (checkQa) {
+      navigate("/submissionQA");
+    }
+    if (checkUser) {
+      navigate("/submission");
+    }
     console.log(response);
   };
 

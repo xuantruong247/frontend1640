@@ -2,32 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AiFillLike, AiFillDislike, AiOutlineComment } from "react-icons/ai";
+import moment from "moment";
 import { GrView } from "react-icons/gr";
 
 const DetailIdea = () => {
   const [ideaOne, setIdeaOne] = useState([]);
   const { id } = useParams();
-  const [likeColor, setLikeColor] = useState("silver");
-  const [dislikeColor, setDislikeColor] = useState("silver");
-
-  const handleLikeClick = () => {
-    if (likeColor === "silver") {
-      setLikeColor("black");
-      setDislikeColor("silver");
-    } else {
-      setLikeColor("silver");
-    }
-  };
-
-  const handleDislikeClick = () => {
-    if (dislikeColor === "silver") {
-      setDislikeColor("black");
-      setLikeColor("silver");
-    } else {
-      setDislikeColor("silver");
-    }
-  };
 
   const getFindOne = async () => {
     try {
@@ -52,61 +32,46 @@ const DetailIdea = () => {
         <hr />
       </div>
       <div className="grid grid-cols-12">
-        <div className="col-span-5 h-[400px]">
-          <img src={ideaOne?.image?.url} alt="" />
+        <div
+          className="col-span-5 h-[400px] "
+          style={{
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <img src={ideaOne?.image?.url} alt="" width={"400px"} />
         </div>
         <div className="col-span-7 h-[420px] relative">
           <div
-            className="flex flex-col justify-between"
-            // style={{ border: "1px solid red" }}
+            className="flex flex-col justify-between pl-4"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
           >
-            <div 
-            // style={{ border: "1px solid blue" }}
-            >
-              <p>Title: {ideaOne.title}</p>
-              <p>Category {ideaOne.category?.name}</p>
-              <p>Content: {ideaOne.content}</p>
-              <p>Submission {ideaOne.submission?.name}</p>
-            </div>
-            <div className="flex flex-row justify-between">
-              <div className="absolute bottom-[-30px]">
-                <span className="flex">
-                  <GrView className="mt-1 mx-1" /> View
+            <div>
+              <p className="text-xl font-normal">
+                Title:
+                <span className="text-base font-light ">{ideaOne.title}</span>
+              </p>
+              <p className="text-xl font-normal">
+                Category:
+                <span className="text-base font-light">
+                  {" "}
+                  {ideaOne.category?.name}{" "}
                 </span>
-              </div>
-
-              <div className="absolute bottom-[-40px] right-0">
-                <div className="bg-gray-500 d-flex justify-between rounded ">
-                  <button
-                    className="btn btn-secondary d-flex"
-                    onClick={handleLikeClick}
-                  >
-                    <AiFillLike
-                      className="text-xl"
-                      style={{ color: likeColor }}
-                    />
-                    Like
-                  </button>
-                  <span className="text-white text-xl">|</span>
-                  <button
-                    className="btn btn-secondary d-flex"
-                    onClick={handleDislikeClick}
-                  >
-                    <AiFillDislike
-                      className="text-xl"
-                      style={{ color: dislikeColor }}
-                    />
-                    Dislike
-                  </button>
-                  <a
-                    href="#cmt"
-                    className="d-flex text-decoration-none text-black items-center"
-                  >
-                    <AiOutlineComment className="text-2xl" />
-                    Comment
-                  </a>
-                </div>
-              </div>
+              </p>
+              <p className="text-xl font-normal">
+                Content:{" "}
+                <span className="text-base font-light ">{ideaOne.content}</span>
+              </p>
+              <p className="text-xl font-normal">
+                Submission{" "}
+                <span className="text-base font-light ">
+                  {ideaOne.submission?.name}
+                </span>
+              </p>
+              <p className="d-flex">
+                <GrView className="mt-1 mx-1" /> {ideaOne?.views?.length || 0}
+              </p>
             </div>
           </div>
         </div>
@@ -128,7 +93,16 @@ const DetailIdea = () => {
           />
           <button className="btn btn-success mb-2 ml-2">Sent Comment</button>
         </div>
-        <div>show người comment</div>
+
+        {ideaOne.comments &&
+          ideaOne.comments.map((item, index) => (
+            <>
+              <p className="d-flex " style={{ width: "1000px" }}>
+                ( {moment(item.created_at).format("DD - MM - YYYY h:mm a")} ) -{" "}
+                <span className="ml-2">{item.content}</span>
+              </p>
+            </>
+          ))}
       </div>
     </div>
   );

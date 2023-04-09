@@ -2,18 +2,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 
 const IdeaPage = () => {
   const [ideaMap, setIdeaMap] = useState([]);
-  const [likeCount,setLikeCount] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(10);
 
   const token = JSON.parse(localStorage.getItem("auth")).accessToken;
 
   const getAllIdeas = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/user/idea?page=${currentPage}&limit=${pageSize}`);
+      const res = await axios.get(
+        `http://localhost:8080/user/idea?page=${currentPage}&limit=${pageSize}`
+      );
       setIdeaMap(res.data.docs);
     } catch (error) {
       console.log(error);
@@ -45,7 +47,7 @@ const IdeaPage = () => {
           "x-access-token": `${token}`,
         },
       });
-      getAllIdeas()
+      getAllIdeas();
     } catch (error) {
       console.log(error);
       toast.error("Somethign went error at like and dislike ");
@@ -61,7 +63,7 @@ const IdeaPage = () => {
           "x-access-token": `${token}`,
         },
       });
-      getAllIdeas()
+      getAllIdeas();
     } catch (error) {
       console.log(error);
       toast.error("Something went err at disslike");
@@ -79,7 +81,15 @@ const IdeaPage = () => {
     getAllIdeas();
   }, [currentPage, pageSize]);
   return (
-    <div className="container">
+    <div
+      className="container"
+      style={{
+        height: "90vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
+    >
       <table className="table">
         <thead>
           <tr className="text-center">
@@ -133,8 +143,20 @@ const IdeaPage = () => {
           ))}
         </tbody>
       </table>
-      <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous Page</button>
-      <button onClick={() => setCurrentPage(currentPage + 1)}>Next Page</button>
+      <div className="text-center text-2xl mb-2">
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <AiFillLeftCircle />
+        </button>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          className="ml-2"
+        >
+          <AiFillRightCircle />
+        </button>
+      </div>
     </div>
   );
 };

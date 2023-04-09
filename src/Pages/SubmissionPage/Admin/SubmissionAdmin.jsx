@@ -1,3 +1,4 @@
+import Pagination from 'react-bootstrap/Pagination';
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -6,24 +7,27 @@ import { toast } from "react-toastify";
 import { saveAs } from "file-saver";
 const JSZip = require("jszip");
 
+
 const SubmissionAdmin = () => {
   const [submission, setSubmission] = useState([]);
   const [dataZip, setDataZip] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
+  const [arrUrl, setArrUrl] = useState([]);
   const XLSX=require('xlsx');
-
   const getAllSub = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/admin/submission");
-      setSubmission(res.data);
+      const res = await axios.get(`http://localhost:8080/admin/submission?page=${currentPage}&limit=${pageSize}`);
+      setSubmission(res.data.docs);
+      
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
     }
   };
-  
   useEffect(() => {
     getAllSub();
-  }, []);
+  }, [currentPage, pageSize]);
   const convertJsonToExcel=()=>{
     const worksheet=XLSX.utils.json_to_sheet(dataZip);
     const workBook=XLSX.utils.book_new();
@@ -32,7 +36,6 @@ const SubmissionAdmin = () => {
     XLSX.write(workBook,{bookType:'xlsx',type:"binary"})
     XLSX.writeFile(workBook,"ideaData.xlsx")
   }
-
   const isDeadlineExpired = (deadline) => {
     return moment(deadline).isBefore(moment());
   };
@@ -47,14 +50,38 @@ const SubmissionAdmin = () => {
     }
   };
   const exportZip = async () => {
-    const arr = [
-      "https://res.cloudinary.com/dgqj9ahle/image/upload/v1680606477/ehpbvyw4vrkd9pqvjgmc.jpg",
-      "https://res.cloudinary.com/dgqj9ahle/image/upload/v1680288277/frrlfjmhcldkpnbwviul.png",
-    ];
+    const arrUrl = dataZip.map(item => item.image.url);
+      setArrUrl(arrUrl)
+      console.log(arrUrl);
     const zip = new JSZip();
+    // const zipFiles = [];
+
+    // for (const url of arrUrl) {
+    //   const response = await axios.get(url, { responseType: "arraybuffer" });
+    //   const data = await response.data;
+    //   const filename = url.substring(url.lastIndexOf("/") + 1);
+    //   const zip = new JSZip();
+    //   zip.file(filename, data);
+    //   const content = await zip.generateAsync({ type: "arrayBuffer" });
+    //   zipFiles.push(content);
+    // }
+    // const zip = new JSZip();
+
+    // const imagesFolder = zip.folder("images");
+    // console.log(imagesFolder);
+
+    // for (const zipFile of zipFiles) {
+    //   const blob = await zipFile.blob();
+    //   const filename = "file_" + Date.now() + ".zip";
+    //   imagesFolder.file(filename, blob);
+    // }
+    // const content = await zip.generateAsync({ type: "arrayBuffer" });
+    // const blob = new Blob([content], { type: "application/zip" });
+    // saveAs(blob, "all_images.zip");
+
     try {
       const responses = await Promise.all(
-        arr.map((url) =>
+        arrUrl.map((url) =>
           axios.get(url, {
             responseType: "arraybuffer",
           })
@@ -63,19 +90,22 @@ const SubmissionAdmin = () => {
       let i = 0;
       for (const response of responses) {
         const data = await response.data;
-        const filename = arr[i].substring(arr[i].lastIndexOf("/") + 1);
+        const filename = arrUrl[i].substring(arrUrl[i].lastIndexOf("/") + 1);
+        const zip = new JSZip();
         zip.file(filename, data);
         const content = await zip.generateAsync({ type: 'blob' });
+        // zipFiles.push(content);
         saveAs(content, "images.zip");
         i++;
       }
-      const content = await zip.generateAsync({ type: "blob" });
-      console.log(content);
+      // const content = await zip.generateAsync({ type: "blob" });
+      // console.log(zipFiles);
     } catch (error) {
       console.error("Failed to download files and create zip:", error);
     }
   };
   return (
+    <>
     <div className="container mb-28 grid grid-cols-3 gap-4 row-span-2  mlg:grid-cols-2 mmd:grid-cols-1 mmd:max-w-md">
       {submission?.map((item, index) => (
         <div
@@ -112,7 +142,6 @@ const SubmissionAdmin = () => {
               Deadline:{" "}
               {moment(item.deadline_2).format("DD - MM - YYYY h:mm a")}
             </p>
-
             <div className="flex justify-center">
               <NavLink to={`/listIdea/${item._id}`}>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-2">
@@ -134,8 +163,26 @@ const SubmissionAdmin = () => {
           </div>
         </div>
       ))}
+
     </div>
+    <Pagination>
+    {/* <Pagination.First /> */}
+    <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
+    {/* <Pagination.Item>{1}</Pagination.Item>
+    <Pagination.Ellipsis />
+
+    <Pagination.Item>{10}</Pagination.Item>
+    <Pagination.Item>{11}</Pagination.Item>
+    <Pagination.Item active>{12}</Pagination.Item>
+    <Pagination.Item>{13}</Pagination.Item>
+    <Pagination.Item disabled>{14}</Pagination.Item>
+
+    <Pagination.Ellipsis />
+    <Pagination.Item>{20}</Pagination.Item> */}
+    <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} />
+    {/* <Pagination.Last /> */}
+  </Pagination>
+  </>
   );
 };
-
 export default SubmissionAdmin;

@@ -2,12 +2,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+<<<<<<< HEAD
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
+=======
+import Pagination from 'react-bootstrap/Pagination';
+>>>>>>> b4eb486cef80d478105468c67703c8202300070b
 
 const IdeaPage = () => {
   const [ideaMap, setIdeaMap] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+<<<<<<< HEAD
   const [pageSize, setPageSize] = useState(10);
+=======
+  const [pageSize, setPageSize] = useState(5);
+>>>>>>> b4eb486cef80d478105468c67703c8202300070b
 
   const token = JSON.parse(localStorage.getItem("auth")).accessToken;
 
@@ -143,6 +151,7 @@ const IdeaPage = () => {
           ))}
         </tbody>
       </table>
+<<<<<<< HEAD
       <div className="text-center text-2xl mb-2">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
@@ -157,6 +166,27 @@ const IdeaPage = () => {
           <AiFillRightCircle />
         </button>
       </div>
+=======
+      {/* <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous Page</button>
+      <button onClick={() => setCurrentPage(currentPage + 1)}>Next Page</button> */}
+      <Pagination>
+      {/* <Pagination.First /> */}
+      <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
+      {/* <Pagination.Item>{1}</Pagination.Item>
+      <Pagination.Ellipsis />
+
+      <Pagination.Item>{10}</Pagination.Item>
+      <Pagination.Item>{11}</Pagination.Item>
+      <Pagination.Item active>{12}</Pagination.Item>
+      <Pagination.Item>{13}</Pagination.Item>
+      <Pagination.Item disabled>{14}</Pagination.Item>
+
+      <Pagination.Ellipsis />
+      <Pagination.Item>{20}</Pagination.Item> */}
+      <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} />
+      {/* <Pagination.Last /> */}
+    </Pagination>
+>>>>>>> b4eb486cef80d478105468c67703c8202300070b
     </div>
   );
 };

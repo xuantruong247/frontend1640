@@ -3,15 +3,20 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import Pagination from 'react-bootstrap/Pagination';
+
 
 const SubmissionQA = () => {
   const [submission, setSubmission] = useState([]);
+  const [dataZip, setDataZip] = useState([]);
   const [idea, setIdea] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
   const XLSX=require('xlsx');
   const getAllSub = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/admin/submission");
-      setSubmission(res.data);
+      const res = await axios.get(`http://localhost:8080/admin/submission?page=${currentPage}&limit=${pageSize}`);
+      setSubmission(res.data.docs);
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -38,13 +43,14 @@ const SubmissionQA = () => {
   useEffect(() => {
     getAllSub();
     getAllidea();
-  }, []);
+  }, [currentPage, pageSize]);
 
   const isDeadlineExpired = (deadline) => {
     return moment(deadline).isBefore(moment());
   };
 
   return (
+    <>
     <div className="container mb-28 grid grid-cols-3 gap-4 row-span-2  mlg:grid-cols-2 mmd:grid-cols-1 mmd:max-w-md">
       <div className="flex justify-end row-start-1 col-span-3"></div>
       {submission?.map((item, index) => (
@@ -101,7 +107,26 @@ const SubmissionQA = () => {
           </div>
         </div>
       ))}
+      
     </div>
+    <Pagination>
+      {/* <Pagination.First /> */}
+      <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
+      {/* <Pagination.Item>{1}</Pagination.Item>
+      <Pagination.Ellipsis />
+
+      <Pagination.Item>{10}</Pagination.Item>
+      <Pagination.Item>{11}</Pagination.Item>
+      <Pagination.Item active>{12}</Pagination.Item>
+      <Pagination.Item>{13}</Pagination.Item>
+      <Pagination.Item disabled>{14}</Pagination.Item>
+
+      <Pagination.Ellipsis />
+      <Pagination.Item>{20}</Pagination.Item> */}
+      <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} />
+      {/* <Pagination.Last /> */}
+    </Pagination>
+    </>
   );
 };
 

@@ -51,30 +51,32 @@ const DetailIdea = () => {
         <a href="/idea">Back to list Idea</a>
         <hr />
       </div>
-      <div className="row my-20">
-        <div className="col-md-5">
+      <div className="grid grid-cols-12">
+        <div className="col-span-5 h-[400px]">
           <img src={ideaOne?.image?.url} alt="" />
         </div>
-        <div className="col-md-7">
+        <div className="col-span-7 h-[420px] relative">
           <div
-            className="d-flex flex-column justify-between"
-            style={{ border: "1px solid red" }}
+            className="flex flex-col justify-between"
+            // style={{ border: "1px solid red" }}
           >
-            <div style={{ border: "1px solid blue" }}>
+            <div 
+            // style={{ border: "1px solid blue" }}
+            >
               <p>Title: {ideaOne.title}</p>
               <p>Category {ideaOne.category?.name}</p>
               <p>Content: {ideaOne.content}</p>
               <p>Submission {ideaOne.submission?.name}</p>
             </div>
-            <div className="row">
-              <div className="col-md-3">
-                <span className="d-flex">
+            <div className="flex flex-row justify-between">
+              <div className="absolute bottom-[-30px]">
+                <span className="flex">
                   <GrView className="mt-1 mx-1" /> View
                 </span>
               </div>
 
-              <div className="col-md-9">
-                <div className="bg-gray-500 w-32 d-flex justify-between rounded ">
+              <div className="absolute bottom-[-40px] right-0">
+                <div className="bg-gray-500 d-flex justify-between rounded ">
                   <button
                     className="btn btn-secondary d-flex"
                     onClick={handleLikeClick}
@@ -108,7 +110,8 @@ const DetailIdea = () => {
             </div>
           </div>
         </div>
-        <div id="cmt" className="mx-2 pt-10">
+        <div id="cmt" className="mx-2 pt-10 col-span-12">
+          <hr />
           <label className="block text-black text-base mt-2" htmlFor="content">
             Your Comment
           </label>

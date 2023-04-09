@@ -6,14 +6,15 @@ import { toast } from "react-toastify";
 const IdeaPage = () => {
   const [ideaMap, setIdeaMap] = useState([]);
   const [likeCount,setLikeCount] = useState('')
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(2);
 
   const token = JSON.parse(localStorage.getItem("auth")).accessToken;
 
   const getAllIdeas = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/admin/idea");
-      setIdeaMap(res.data);
-      console.log(res.data);
+      const res = await axios.get(`http://localhost:8080/user/idea?page=${currentPage}&limit=${pageSize}`);
+      setIdeaMap(res.data.docs);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -66,11 +67,17 @@ const IdeaPage = () => {
       toast.error("Something went err at disslike");
     }
   };
+  const handlePreviousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
 
   useEffect(() => {
     getAllIdeas();
-
-  }, []);
+  }, [currentPage, pageSize]);
   return (
     <div className="container">
       <table className="table">
@@ -126,6 +133,8 @@ const IdeaPage = () => {
           ))}
         </tbody>
       </table>
+      <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous Page</button>
+      <button onClick={() => setCurrentPage(currentPage + 1)}>Next Page</button>
     </div>
   );
 };

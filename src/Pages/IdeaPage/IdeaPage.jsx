@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import Pagination from 'react-bootstrap/Pagination';
+import Pagination from 'react-bootstrap/Pagination';import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
+
 
 const IdeaPage = () => {
   const [ideaMap, setIdeaMap] = useState([]);

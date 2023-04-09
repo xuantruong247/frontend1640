@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AiFillLike, AiFillDislike, AiOutlineComment } from "react-icons/ai";
+import moment from "moment";
 import { GrView } from "react-icons/gr";
 
 const DetailIdea = () => {
@@ -128,7 +129,15 @@ const DetailIdea = () => {
           />
           <button className="btn btn-success mb-2 ml-2">Sent Comment</button>
         </div>
-        <div>show người comment</div>
+        {ideaOne.comments &&
+          ideaOne.comments.map((item, index) => (
+            <>
+              <p className="d-flex " style={{ width: "1000px" }}>
+                ( {moment(item.created_at).format("DD - MM - YYYY h:mm a")} ) -{" "}
+                <span className="ml-2">{item.content}</span>
+              </p>
+            </>
+          ))}
       </div>
     </div>
   );

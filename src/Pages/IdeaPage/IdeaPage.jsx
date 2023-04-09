@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import Pagination from 'react-bootstrap/Pagination';
 
 const IdeaPage = () => {
   const [ideaMap, setIdeaMap] = useState([]);
   const [likeCount,setLikeCount] = useState('')
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(5);
 
   const token = JSON.parse(localStorage.getItem("auth")).accessToken;
 
@@ -133,8 +134,25 @@ const IdeaPage = () => {
           ))}
         </tbody>
       </table>
-      <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous Page</button>
-      <button onClick={() => setCurrentPage(currentPage + 1)}>Next Page</button>
+      {/* <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous Page</button>
+      <button onClick={() => setCurrentPage(currentPage + 1)}>Next Page</button> */}
+      <Pagination>
+      {/* <Pagination.First /> */}
+      <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
+      {/* <Pagination.Item>{1}</Pagination.Item>
+      <Pagination.Ellipsis />
+
+      <Pagination.Item>{10}</Pagination.Item>
+      <Pagination.Item>{11}</Pagination.Item>
+      <Pagination.Item active>{12}</Pagination.Item>
+      <Pagination.Item>{13}</Pagination.Item>
+      <Pagination.Item disabled>{14}</Pagination.Item>
+
+      <Pagination.Ellipsis />
+      <Pagination.Item>{20}</Pagination.Item> */}
+      <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} />
+      {/* <Pagination.Last /> */}
+    </Pagination>
     </div>
   );
 };
